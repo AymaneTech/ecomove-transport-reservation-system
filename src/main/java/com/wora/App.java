@@ -1,6 +1,8 @@
 package com.wora;
 
-import ma.codex.Framework.Kernel;
+import ma.codex.framework.Kernel;
+
+import java.sql.SQLException;
 
 /**
  * Hello world!
@@ -8,8 +10,7 @@ import ma.codex.Framework.Kernel;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) throws SQLException {
         Kernel.run(App.class);
 
         System.out.println("hello world");
