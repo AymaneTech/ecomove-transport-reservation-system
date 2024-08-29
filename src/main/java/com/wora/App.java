@@ -1,7 +1,5 @@
 package com.wora;
 
-import ma.codex.framework.Kernel;
-
 import java.sql.SQLException;
 
 /**
@@ -11,7 +9,6 @@ import java.sql.SQLException;
 public class App 
 {
     public static void main( String[] args ) throws SQLException {
-        Kernel.run(App.class);
 
         System.out.println("hello world");
     }
