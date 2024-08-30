@@ -1,62 +1,66 @@
 package com.wora.partner.domain.entities;
 
-import java.sql.Date;
-import java.util.UUID;
-
+import com.wora.common.models.AbstractEntity;
 import com.wora.partner.domain.enums.PartnerStatus;
 import com.wora.partner.domain.enums.TransportType;
+import com.wora.partner.domain.valueObjects.CommercialInfo;
+import com.wora.partner.domain.valueObjects.PartnerId;
+
+import java.util.Date;
 
 /**
  * Partner
  */
-public class Partner {
+public class Partner extends AbstractEntity<PartnerId> {
 
-    private UUID id;
+    private PartnerId id;
 
     private String name;
 
-    private String commercialName;
-
-    private String commercialPhoneNumber;
-
-    private String commercialEmail;
+    private CommercialInfo commercialInfo;
 
     private String geographicArea;
 
     private String specialCondition;
 
-    private TransportType type;
+    private TransportType transportType;
 
     private PartnerStatus status;
-
-    private Date createdAt;
-
-    private Date updatedAt;
-
-    private Date deletedAt;
 
     Partner() {
     }
 
-    public Partner(UUID id, String name, String commercialName, String commercialPhoneNumber, String commercialEmail,
-            String geographicArea, String specialCondition, TransportType type, PartnerStatus status, Date createdAt) {
+    public Partner(PartnerId id, String name, CommercialInfo commercialInfo,
+                   String geographicArea, String specialCondition, TransportType type, PartnerStatus status) {
         this.id = id;
         this.name = name;
-        this.commercialName = commercialName;
-        this.commercialPhoneNumber = commercialPhoneNumber;
-        this.commercialEmail = commercialEmail;
+        this.commercialInfo = commercialInfo;
         this.geographicArea = geographicArea;
         this.specialCondition = specialCondition;
-        this.type = type;
+        this.transportType = type;
         this.status = status;
-        this.createdAt = createdAt;
     }
 
-    public UUID getId() {
+    public Partner(PartnerId id, String name, CommercialInfo commercialInfo,
+                   String geographicArea, String specialCondition, TransportType type, PartnerStatus status,
+                   Date createdAt, Date updatedAt, Date deletedAt) {
+        this.id = id;
+        this.name = name;
+        this.commercialInfo = commercialInfo;
+        this.geographicArea = geographicArea;
+        this.specialCondition = specialCondition;
+        this.transportType = type;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+    }
+
+    public PartnerId getId() {
         return this.id;
     }
 
-    public Partner setId(UUID id) {
+    public Partner setId(PartnerId id) {
         this.id = id;
         return this;
     }
@@ -70,30 +74,12 @@ public class Partner {
         return this;
     }
 
-    public String getCommercialName() {
-        return this.commercialName;
+    public CommercialInfo getCommercialInfo() {
+        return this.commercialInfo;
     }
 
-    public Partner setCommercialName(String commercialName) {
-        this.commercialName = commercialName;
-        return this;
-    }
-
-    public String getCommercialPhoneNumber() {
-        return this.commercialPhoneNumber;
-    }
-
-    public Partner setCommercialPhoneNumber(String commercialPhoneNumber) {
-        this.commercialPhoneNumber = commercialPhoneNumber;
-        return this;
-    }
-
-    public String getCommercialEmail() {
-        return this.commercialEmail;
-    }
-
-    public Partner setCommercialEmail(String commercialEmail) {
-        this.commercialEmail = commercialEmail;
+    public Partner setCommercialInfo(CommercialInfo commercialInfo) {
+        this.commercialInfo = commercialInfo;
         return this;
     }
 
@@ -115,12 +101,12 @@ public class Partner {
         return this;
     }
 
-    public TransportType getType() {
-        return this.type;
+    public TransportType getTransportType() {
+        return this.transportType;
     }
 
-    public Partner setType(TransportType type) {
-        this.type = type;
+    public Partner setTransportType(TransportType transportType) {
+        this.transportType = transportType;
         return this;
     }
 
@@ -133,30 +119,16 @@ public class Partner {
         return this;
     }
 
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public Partner setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public Date getUpdatedAt() {
-        return this.updatedAt;
-    }
-
-    public Partner setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-        return this;
-    }
-
-    public Date getDeletedAt() {
-        return this.deletedAt;
-    }
-
-    public Partner setDeletedAt(Date deletedAt) {
-        this.deletedAt = deletedAt;
-        return this;
+    @Override
+    public String toString() {
+        return "Partner{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", commerical info'" + commercialInfo + '\'' +
+                ", geographicArea='" + geographicArea + '\'' +
+                ", specialCondition='" + specialCondition + '\'' +
+                ", transportType=" + transportType +
+                ", status=" + status +
+                '}';
     }
 }
