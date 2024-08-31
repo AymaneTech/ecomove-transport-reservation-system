@@ -1,9 +1,9 @@
 package com.wora.common.utils;
 
+import com.wora.common.contracts.SQLConsumer;
 import com.wora.config.DatabaseConnection;
 
 import java.sql.*;
-import java.util.function.Consumer;
 
 public class QueryExecutor {
     private final static Connection CONNECTION = DatabaseConnection.getInstance().getConnection();
@@ -11,7 +11,7 @@ public class QueryExecutor {
     private QueryExecutor() {
     }
 
-    public static void executeUpdatePreparedStatement(final String query, final Consumer<PreparedStatement> executor) {
+    public static void executeUpdatePreparedStatement(final String query, final SQLConsumer<PreparedStatement> executor) {
         try (final PreparedStatement stmt = CONNECTION.prepareStatement(query)) {
             executor.accept(stmt);
 
@@ -27,7 +27,7 @@ public class QueryExecutor {
         }
     }
 
-    public static void executeQueryStatement(final String query, final Consumer<ResultSet> executor) {
+    public static void executeQueryStatement(final String query, final SQLConsumer<ResultSet> executor) {
         try (final Statement stmt = CONNECTION.createStatement()) {
             final ResultSet resultSet = stmt.executeQuery(query);
             executor.accept(resultSet);
@@ -38,7 +38,7 @@ public class QueryExecutor {
         }
     }
 
-    public static void executeQueryPreparedStatement(final String query, final Consumer<PreparedStatement> executor) {
+    public static void executeQueryPreparedStatement(final String query, final SQLConsumer<PreparedStatement> executor) {
         try (final PreparedStatement stmt = CONNECTION.prepareStatement(query)) {
             executor.accept(stmt);
         } catch (SQLException e) {

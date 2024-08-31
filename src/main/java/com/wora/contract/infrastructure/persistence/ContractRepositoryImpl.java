@@ -42,14 +42,20 @@ public class ContractRepositoryImpl extends BaseRepositoryImpl<Contract, UUID> i
                 """, tableName);
         executeUpdatePreparedStatement(query, stmt -> {
             mapper.map(contract, stmt);
-            try {
-                stmt.setString(8, id.toString());
-            }
+            stmt.setString(8, id.toString());
         });
     }
 
     @Override
     public void changeStatus(UUID id, ContractStatus status) {
-
+        final String query = String.format("""
+                UPDATE %s 
+                SET contract_status = ?
+                WHERE id = ?
+                """);
+        executeUpdatePreparedStatement(query, stmt -> {
+            stmt.setObject(1, status);
+            stmt.setString(2, id.toString());
+        });
     }
 }

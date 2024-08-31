@@ -1,12 +1,8 @@
 package com.wora.common.repositories;
 
 import com.wora.common.mappers.BaseEntityResultSetMapper;
-import com.wora.config.DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +13,6 @@ import static com.wora.common.utils.QueryExecutor.executeQueryStatement;
 
 public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<Entity, ID> {
 
-    private final Connection connection = DatabaseConnection.getInstance().getConnection();
     private final String tableName;
     private final BaseEntityResultSetMapper<Entity> mapper;
 
@@ -32,12 +27,7 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
         final String query = "SELECT * FROM " + tableName + " WHERE deleted_at is null";
 
         executeQueryStatement(query, resultSet -> {
-            while (true) {
-                try {
-                    if (!resultSet.next()) break;
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+            while (resultSet.next()) {
                 entities.add(mapper.map(resultSet));
             }
         });
@@ -46,18 +36,14 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
 
     @Override
     public Optional<Entity> findById(ID id) {
-        final String query = "SELECT * FROM " + tableName + "WHERE id = ? AND deleted_at is null";
         final AtomicReference<Optional<Entity>> entity = new AtomicReference<>(Optional.empty());
+        final String query = "SELECT * FROM " + tableName + "WHERE id = ? AND deleted_at is null";
 
         executeQueryPreparedStatement(query, stmt -> {
-            try {
-                stmt.setString(1, id.toString());
-                final ResultSet resultSet = stmt.executeQuery();
-                if (resultSet.next()) {
-                    entity.set(Optional.of(mapper.map(resultSet)));
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            stmt.setString(1, id.toString());
+            final ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                entity.set(Optional.of(mapper.map(resultSet)));
             }
         });
         return entity.get();
@@ -70,10 +56,8 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
                 SET deleted_at = CURRENT_TIMESTAMP 
                 WHERE id = ?""", tableName);
 
-        try (final PreparedStatement stmt = connection.prepareStatement(query)) {
+        executeQueryPreparedStatement(query, stmt -> {
             stmt.setString(1, id.toString());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 }

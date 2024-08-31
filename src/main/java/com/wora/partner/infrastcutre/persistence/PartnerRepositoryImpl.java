@@ -52,11 +52,7 @@ public class PartnerRepositoryImpl extends BaseRepositoryImpl<Partner, UUID> imp
 
         executeUpdatePreparedStatement(query, stmt -> {
             mapper.map(partner, stmt);
-            try {
                 stmt.setString(9, id.toString());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         });
     }
 
@@ -70,12 +66,8 @@ public class PartnerRepositoryImpl extends BaseRepositoryImpl<Partner, UUID> imp
                 """);
 
         executeUpdatePreparedStatement(query, stmt -> {
-            try {
                 stmt.setObject(1, status);
                 stmt.setString(2, id.toString());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         });
     }
 }
