@@ -3,10 +3,17 @@ package com.wora.common.repositories;
 import com.wora.common.mappers.BaseEntityResultSetMapper;
 import com.wora.config.DatabaseConnection;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static com.wora.common.utils.QueryExecutor.executeQueryPreparedStatement;
+import static com.wora.common.utils.QueryExecutor.executeQueryStatement;
 
 public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<Entity, ID> {
 
@@ -22,32 +29,38 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
     @Override
     public List<Entity> findAll() {
         final List<Entity> entities = new ArrayList<>();
+        final String query = "SELECT * FROM " + tableName + " WHERE deleted_at is null";
 
-        try (final Statement stmt = connection.createStatement()) {
-            final ResultSet resultSet = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE deleted_at is null");
-
-            while (resultSet.next()) {
+        executeQueryStatement(query, resultSet -> {
+            while (true) {
+                try {
+                    if (!resultSet.next()) break;
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 entities.add(mapper.map(resultSet));
             }
-            return entities;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        });
+        return entities;
     }
 
     @Override
     public Optional<Entity> findById(ID id) {
-        try (final PreparedStatement stmt = connection.prepareStatement("SELECT * FROM " + tableName + "WHERE id = ? AND deleted_at is null")) {
-            stmt.setString(1, id.toString());
-            final ResultSet resultSet = stmt.executeQuery();
-            if (!resultSet.next()) {
-                return Optional.empty();
-            }
+        final String query = "SELECT * FROM " + tableName + "WHERE id = ? AND deleted_at is null";
+        final AtomicReference<Optional<Entity>> entity = new AtomicReference<>(Optional.empty());
 
-            return Optional.of(mapper.map(resultSet));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        executeQueryPreparedStatement(query, stmt -> {
+            try {
+                stmt.setString(1, id.toString());
+                final ResultSet resultSet = stmt.executeQuery();
+                if (resultSet.next()) {
+                    entity.set(Optional.of(mapper.map(resultSet)));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return entity.get();
     }
 
     @Override

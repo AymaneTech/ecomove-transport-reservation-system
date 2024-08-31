@@ -1,38 +1,51 @@
 package com.wora.contract.infrastructure.persistence;
 
+import com.wora.common.repositories.BaseRepositoryImpl;
 import com.wora.contract.domain.entities.Contract;
 import com.wora.contract.domain.enums.ContractStatus;
 import com.wora.contract.domain.repositories.ContractRepository;
+import com.wora.contract.infrastructure.mappers.ContractResultSetMapper;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-public class ContractRepositoryImpl implements ContractRepository {
+import static com.wora.common.utils.QueryExecutor.executeUpdatePreparedStatement;
 
-    @Override
-    public List<Contract> findAll() {
-        return List.of();
+public class ContractRepositoryImpl extends BaseRepositoryImpl<Contract, UUID> implements ContractRepository {
+
+    private final ContractResultSetMapper mapper;
+    private final String tableName = "contracts";
+
+    public ContractRepositoryImpl(ContractResultSetMapper mapper) {
+        super("contracts", mapper);
+        this.mapper = mapper;
     }
 
     @Override
-    public Optional<Contract> findById(UUID uuid) {
-        return Optional.empty();
+    public void create(Contract contract) {
+        final String query = String.format("""
+                INSERT INTO %s
+                (id, special_price, agreement_condition, renewable, started_at, ends_at, status, partner_id)
+                VALUES (?, ?, ?, ?, ?, ?, CAST(? AS contract_status) ?)
+                """, tableName);
+        executeUpdatePreparedStatement(query, stmt -> {
+            mapper.map(contract, stmt);
+        });
     }
 
     @Override
-    public void create(Contract partner) {
-
-    }
-
-    @Override
-    public void update(UUID uuid, Contract partner) {
-
-    }
-
-    @Override
-    public void delete(UUID uuid) {
-
+    public void update(UUID id, Contract contract) {
+        final String query = String.format("""
+                UPDATE %s
+                SET special_price = ?, agreement_condition = ?, renewable = ?, started_at = ?, ends_at = ?, status = ?, partner_id = ?, updated_at = CURRENT_TIMESTAMP
+                WHERE id = ?
+                AND deleted_at IS NULL
+                """, tableName);
+        executeUpdatePreparedStatement(query, stmt -> {
+            mapper.map(contract, stmt);
+            try {
+                stmt.setString(8, id.toString());
+            }
+        });
     }
 
     @Override
