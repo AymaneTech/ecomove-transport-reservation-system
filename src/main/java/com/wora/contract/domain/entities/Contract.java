@@ -17,9 +17,6 @@ public class Contract extends AbstractEntity<ContractId> {
     private ContractStatus status;
     private PartnerId partnerId;
 
-    Contract() {
-    }
-
     public Contract(ContractId id, String specialPrice, String agreementCondition, Boolean renewable, Date startedAt, Date endsAt, ContractStatus status, PartnerId partnerId) {
         this.id = id;
         this.specialPrice = specialPrice;

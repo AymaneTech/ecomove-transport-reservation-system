@@ -5,6 +5,7 @@ import com.wora.partner.application.mappers.PartnerMapper;
 import com.wora.partner.application.usecases.FindPartnerByIdUseCase;
 import com.wora.partner.domain.exceptions.PartnerNotFoundException;
 import com.wora.partner.domain.repositories.PartnerRepository;
+import com.wora.partner.domain.valueObjects.PartnerId;
 
 import java.util.UUID;
 
@@ -19,9 +20,9 @@ public class FindPartnerByIdUseCaseImpl implements FindPartnerByIdUseCase {
     }
 
     @Override
-    public PartnerResponse execute(UUID id) throws PartnerNotFoundException {
-        return repository.findById(id)
+    public PartnerResponse execute(PartnerId id) throws PartnerNotFoundException {
+        return repository.findById(id.value())
                 .map(mapper::map)
-                .orElseThrow(() -> new PartnerNotFoundException(id));
+                .orElseThrow(() -> new PartnerNotFoundException(id.value()));
     }
 }
