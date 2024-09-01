@@ -7,7 +7,6 @@ import com.wora.partner.domain.enums.PartnerStatus;
 import com.wora.partner.domain.valueObjects.PartnerId;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface PartnerService {
 

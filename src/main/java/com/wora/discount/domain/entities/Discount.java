@@ -1,6 +1,7 @@
 package com.wora.discount.domain.entities;
 
 import com.wora.common.models.AbstractEntity;
+import com.wora.contract.domain.valueObjects.ContractId;
 import com.wora.discount.domain.enums.DiscountStatus;
 import com.wora.discount.domain.valueObjects.DiscountId;
 import com.wora.discount.domain.valueObjects.Reduction;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 public class Discount extends AbstractEntity<DiscountId> {
     private DiscountId id;
+    private ContractId contractId;
     private String name;
     private String description;
     private String conditions;
@@ -17,8 +19,9 @@ public class Discount extends AbstractEntity<DiscountId> {
     private Date endsAt;
     private DiscountStatus status;
 
-    public Discount(DiscountId id, String name, String description, String conditions, Reduction reduction, Date startedAt, Date endsAt, DiscountStatus status) {
+    public Discount(DiscountId id, ContractId contractId, String name, String description, String conditions, Reduction reduction, Date startedAt, Date endsAt, DiscountStatus status) {
         this.id = id;
+        this.contractId = contractId;
         this.name = name;
         this.description = description;
         this.conditions = conditions;
@@ -28,8 +31,9 @@ public class Discount extends AbstractEntity<DiscountId> {
         this.status = status;
     }
 
-    public Discount(DiscountId id, String name, String description, String conditions, Reduction reduction, Date startedAt, Date endsAt, DiscountStatus status, Date createdAt, Date updatedAt, Date deletedAt) {
+    public Discount(DiscountId id, ContractId contractId, String name, String description, String conditions, Reduction reduction, Date startedAt, Date endsAt, DiscountStatus status, Date createdAt, Date updatedAt, Date deletedAt) {
         this.id = id;
+        this.contractId = contractId;
         this.name = name;
         this.description = description;
         this.conditions = conditions;
@@ -42,7 +46,6 @@ public class Discount extends AbstractEntity<DiscountId> {
         this.deletedAt = deletedAt;
     }
 
-
     @Override
     public DiscountId getId() {
         return id;
@@ -51,6 +54,14 @@ public class Discount extends AbstractEntity<DiscountId> {
     public Discount setId(DiscountId id) {
         this.id = id;
         return this;
+    }
+
+    public ContractId getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(ContractId contractId) {
+        this.contractId = contractId;
     }
 
     public String getName() {

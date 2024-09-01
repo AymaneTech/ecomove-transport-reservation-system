@@ -12,7 +12,7 @@ import java.util.UUID;
 public class TicketMapper {
     public Ticket map(CreateTicketDto dto) {
         return new Ticket(
-                new TicketId(UUID.randomUUID()),
+                new TicketId(),
                 dto.contractId(),
                 dto.sellingPrice(),
                 dto.purchasePrice(),

@@ -1,6 +1,7 @@
 package com.wora.discount.infrastructure.mappers;
 
 import com.wora.common.contracts.BaseEntityResultSetMapper;
+import com.wora.contract.domain.valueObjects.ContractId;
 import com.wora.discount.domain.entities.Discount;
 import com.wora.discount.domain.enums.DiscountStatus;
 import com.wora.discount.domain.enums.ReductionType;
@@ -19,6 +20,7 @@ public class DiscountResultSetMapper implements BaseEntityResultSetMapper<Discou
         try {
             return new Discount(
                     new DiscountId((UUID) resultSet.getObject("id")),
+                    new ContractId((UUID) resultSet.getObject("contract_id")),
                     resultSet.getString("name"),
                     resultSet.getString("description"),
                     resultSet.getString("conditions"),
@@ -51,6 +53,7 @@ public class DiscountResultSetMapper implements BaseEntityResultSetMapper<Discou
             stmt.setDate(count++, new Date(discount.getStartedAt().getTime()));
             stmt.setDate(count++, new Date(discount.getEndsAt().getTime()));
             stmt.setObject(count++, discount.getStatus().toString());
+            stmt.setObject(count++, discount.getContractId().value());
             stmt.setObject(count++, discount.getId().value());
         } catch (SQLException e) {
             throw new RuntimeException(e);

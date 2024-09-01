@@ -9,22 +9,20 @@ import com.wora.contract.domain.entities.Contract;
 import com.wora.contract.domain.enums.ContractStatus;
 import com.wora.contract.domain.exceptions.ContractNotFoundException;
 import com.wora.contract.domain.repositories.ContractRepository;
-import com.wora.partner.application.dtos.responses.PartnerResponse;
-import com.wora.partner.application.usecases.FindPartnerByIdUseCase;
-import com.wora.partner.domain.exceptions.PartnerNotFoundException;
+import com.wora.contract.domain.valueObjects.ContractId;
+import com.wora.partner.application.services.PartnerService;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 public class ContractServiceImpl implements ContractService {
     private final ContractRepository repository;
-    private final FindPartnerByIdUseCase findPartnerByIdUseCase;
+    private final PartnerService partnerService;
     private final ContractMapper mapper;
 
-    public ContractServiceImpl(ContractRepository repository, FindPartnerByIdUseCase findPartnerByIdUseCase, ContractMapper mapper) {
+    public ContractServiceImpl(ContractRepository repository, PartnerService partnerService, ContractMapper mapper) {
         this.repository = repository;
-        this.findPartnerByIdUseCase = findPartnerByIdUseCase;
+        this.partnerService = partnerService;
         this.mapper = mapper;
     }
 
@@ -32,30 +30,16 @@ public class ContractServiceImpl implements ContractService {
     public List<ContractResponse> findAll() {
         return repository.findAll()
                 .stream()
-                .map(contract -> {
-                    try {
-                        final PartnerResponse partnerResponse = findPartnerByIdUseCase.execute(contract.getPartnerId());
-                        return mapper.map(contract, partnerResponse);
-                    } catch (PartnerNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .map(contract -> mapper.map(contract, partnerService.findById(contract.getPartnerId())))
                 .filter(Objects::nonNull)
                 .toList();
     }
 
     @Override
-    public ContractResponse findById(UUID id) {
-        return repository.findById(id)
-                .map(contract -> {
-                    try {
-                        PartnerResponse partnerResponse = findPartnerByIdUseCase.execute(contract.getPartnerId());
-                        return mapper.map(contract, partnerResponse);
-                    } catch (PartnerNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .orElseThrow(() -> new ContractNotFoundException(id));
+    public ContractResponse findById(ContractId id) {
+        return repository.findById(id.value())
+                .map(contract -> mapper.map(contract, partnerService.findById(contract.getPartnerId())))
+                .orElseThrow(() -> new ContractNotFoundException(id.value()));
     }
 
     @Override
@@ -67,20 +51,20 @@ public class ContractServiceImpl implements ContractService {
 
 
     @Override
-    public void update(UUID id, UpdateContractDto dto) {
-        repository.update(id, mapper.map(dto, id));
+    public void update(ContractId id, UpdateContractDto dto) {
+        repository.update(id.value(), mapper.map(dto, id.value()));
         System.out.println("Contract updated successfully");
     }
 
     @Override
-    public void delete(UUID id) {
-        repository.delete(id);
+    public void delete(ContractId id) {
+        repository.delete(id.value());
         System.out.println("contract deleted successfully");
     }
 
     @Override
-    public void changeStatus(UUID id, ContractStatus status) {
-        repository.changeStatus(id, status);
+    public void changeStatus(ContractId id, ContractStatus status) {
+        repository.changeStatus(id.value(), status);
         System.out.println("Contract status changed successfully");
     }
 }

@@ -25,8 +25,8 @@ public class DiscountRepositoryImpl extends BaseRepositoryImpl<Discount, UUID> i
     public void create(Discount discount) {
         final String query = String.format("""
                 INSERT INTO %s
-                (name, description, conditions, reduction_value, reduction_type, started_at, ends_at, status)
-                VALUES (?, ?, ?, ?, ?, CAST(? AS reduction_type), ?, ?, CAST(? AS discount_status), id)""", tableName);
+                (name, description, conditions, reduction_value, reduction_type, started_at, ends_at, status, contract_id,  id)
+                VALUES (?, ?, ?, ?, CAST(? AS reduction_type), ?, ?, CAST(? AS discount_status), ?, ?)""", tableName);
 
         executeQueryPreparedStatement(query, stmt -> mapper.map(discount, stmt));
     }
@@ -36,7 +36,7 @@ public class DiscountRepositoryImpl extends BaseRepositoryImpl<Discount, UUID> i
         final String query = String.format("""
                 UPDATE %s
                 SET name = ?, description = ?, conditions = ?, reduction_value = ?, reduction_type = CAST(? AS reduction_type),
-                started_at = ?, ends_at = ?, status = CAST(? AS discount_status)
+                started_at = ?, ends_at = ?, status = CAST(? AS discount_status), contract_id = ?
                 WHERE id = ?""", tableName);
 
         executeQueryPreparedStatement(query, stmt -> mapper.map(discount, stmt));

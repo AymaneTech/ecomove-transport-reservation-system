@@ -9,9 +9,9 @@ import com.wora.ticket.application.services.TicketService;
 import com.wora.ticket.domain.entities.Ticket;
 import com.wora.ticket.domain.enums.TicketStatus;
 import com.wora.ticket.domain.repositories.TicketRepository;
+import com.wora.ticket.domain.valueObjects.TicketId;
 
 import java.util.List;
-import java.util.UUID;
 
 public class TicketServiceImpl implements TicketService {
     private final TicketRepository repository;
@@ -28,14 +28,14 @@ public class TicketServiceImpl implements TicketService {
     public List<TicketResponse> findAll() {
         return repository.findAll()
                 .stream()
-                .map(ticket -> mapper.map(ticket, contractService.findById(ticket.getContractId().value())))
+                .map(ticket -> mapper.map(ticket, contractService.findById(ticket.getContractId())))
                 .toList();
     }
 
     @Override
-    public TicketResponse findById(UUID id) {
-        return repository.findById(id)
-                .map(ticket -> mapper.map(ticket, contractService.findById(ticket.getContractId().value())))
+    public TicketResponse findById(TicketId id) {
+        return repository.findById(id.value())
+                .map(ticket -> mapper.map(ticket, contractService.findById(ticket.getContractId())))
                 .orElseThrow();
     }
 
@@ -46,18 +46,18 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void update(UUID id, UpdateTicketDto dto) {
-        final Ticket ticket = mapper.map(dto, id);
-        repository.update(id, ticket);
+    public void update(TicketId id, UpdateTicketDto dto) {
+        final Ticket ticket = mapper.map(dto, id.value());
+        repository.update(id.value(), ticket);
     }
 
     @Override
-    public void delete(UUID id) {
-        repository.delete(id);
+    public void delete(TicketId id) {
+        repository.delete(id.value());
     }
 
     @Override
-    public void changeStatus(UUID id, TicketStatus status) {
-        repository.changeStatus(id, status);
+    public void changeStatus(TicketId id, TicketStatus status) {
+        repository.changeStatus(id.value(), status);
     }
 }

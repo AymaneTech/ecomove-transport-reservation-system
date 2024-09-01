@@ -12,15 +12,10 @@ import com.wora.partner.domain.entities.Partner;
 import java.util.UUID;
 
 public class ContractMapper {
-    private final PartnerMapper partnerMapper;
-
-    public ContractMapper(PartnerMapper partnerMapper) {
-        this.partnerMapper = partnerMapper;
-    }
 
     public Contract map(CreateContractDto dto) {
         return new Contract(
-                new ContractId(UUID.randomUUID()),
+                new ContractId(),
                 dto.specialPrice(),
                 dto.agreementCondition(),
                 dto.renewable(),

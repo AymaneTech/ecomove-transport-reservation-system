@@ -11,7 +11,7 @@ import java.util.UUID;
 public class PartnerMapper {
     public Partner map(CreatePartnerDto dto) {
         return new Partner(
-                new PartnerId(UUID.randomUUID()),
+                new PartnerId(),
                 dto.name(),
                 dto.commercialInfo(),
                 dto.geographicalArea(),
