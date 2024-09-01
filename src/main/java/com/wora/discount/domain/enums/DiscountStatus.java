@@ -1,5 +1,5 @@
 package com.wora.discount.domain.enums;
 
-public enum OfferStatus {
+public enum DiscountStatus {
     ACTIVE, SUSPENDED, EXPIRED
 }
