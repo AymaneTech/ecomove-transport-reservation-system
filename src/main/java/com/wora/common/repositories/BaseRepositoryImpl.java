@@ -1,6 +1,7 @@
 package com.wora.common.repositories;
 
-import com.wora.common.mappers.BaseEntityResultSetMapper;
+import com.wora.common.contracts.BaseEntityResultSetMapper;
+import com.wora.common.contracts.BaseRepository;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

@@ -6,7 +6,6 @@ import com.wora.partner.domain.enums.PartnerStatus;
 import com.wora.partner.domain.repositories.PartnerRepository;
 import com.wora.partner.infrastcutre.mappers.PartnerResultSetMapper;
 
-import java.sql.SQLException;
 import java.util.UUID;
 
 import static com.wora.common.utils.QueryExecutor.executeUpdatePreparedStatement;
@@ -25,13 +24,11 @@ public class PartnerRepositoryImpl extends BaseRepositoryImpl<Partner, UUID> imp
     public void create(Partner partner) {
         final String query = String.format("""
                 INSERT INTO %s 
-                (id, name, commercial_name, commercial_phonenumber, commercial_email, geographical_area, special_condition, transport_type, partner_status) 
+                (name, commercial_name, commercial_phonenumber, commercial_email, geographical_area, special_condition, transport_type, partner_status, id) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, CAST(? AS transport_type), CAST(? AS partner_status))
                 """, tableName);
 
-        executeUpdatePreparedStatement(query, stmt -> {
-            mapper.map(partner, stmt);
-        });
+        executeUpdatePreparedStatement(query, stmt -> mapper.map(partner, stmt));
     }
 
     @Override
@@ -50,24 +47,21 @@ public class PartnerRepositoryImpl extends BaseRepositoryImpl<Partner, UUID> imp
                 AND WHERE deleted_at IS NULL
                 """, tableName);
 
-        executeUpdatePreparedStatement(query, stmt -> {
-            mapper.map(partner, stmt);
-                stmt.setString(9, id.toString());
-        });
+        executeUpdatePreparedStatement(query, stmt -> mapper.map(partner, stmt));
     }
 
 
     @Override
     public void changeStatus(UUID id, PartnerStatus status) {
         final String query = String.format("""
-                UPDATE %s 
+                UPDATE %s
                 SET partner_status = ?
                 WHERE id = ?
-                """);
+                """, tableName);
 
         executeUpdatePreparedStatement(query, stmt -> {
-                stmt.setObject(1, status);
-                stmt.setString(2, id.toString());
+            stmt.setObject(1, status);
+            stmt.setString(2, id.toString());
         });
     }
 }

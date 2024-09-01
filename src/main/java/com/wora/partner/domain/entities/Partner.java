@@ -12,23 +12,13 @@ import java.util.Date;
  * Partner
  */
 public class Partner extends AbstractEntity<PartnerId> {
-
     private PartnerId id;
-
     private String name;
-
     private CommercialInfo commercialInfo;
-
     private String geographicArea;
-
     private String specialCondition;
-
     private TransportType transportType;
-
     private PartnerStatus status;
-
-    Partner() {
-    }
 
     public Partner(PartnerId id, String name, CommercialInfo commercialInfo,
                    String geographicArea, String specialCondition, TransportType type, PartnerStatus status) {

@@ -1,6 +1,6 @@
 package com.wora.partner.domain.repositories;
 
-import com.wora.common.repositories.BaseRepository;
+import com.wora.common.contracts.BaseRepository;
 import com.wora.partner.domain.entities.Partner;
 import com.wora.partner.domain.enums.PartnerStatus;
 

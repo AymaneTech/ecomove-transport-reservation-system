@@ -1,6 +1,6 @@
 package com.wora.contract.infrastructure.mappers;
 
-import com.wora.common.mappers.BaseEntityResultSetMapper;
+import com.wora.common.contracts.BaseEntityResultSetMapper;
 import com.wora.contract.domain.entities.Contract;
 import com.wora.contract.domain.enums.ContractStatus;
 import com.wora.contract.domain.valueObjects.ContractId;

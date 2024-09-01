@@ -1,6 +1,6 @@
 package com.wora.partner.infrastcutre.mappers;
 
-import com.wora.common.mappers.BaseEntityResultSetMapper;
+import com.wora.common.contracts.BaseEntityResultSetMapper;
 import com.wora.partner.domain.entities.Partner;
 import com.wora.partner.domain.enums.PartnerStatus;
 import com.wora.partner.domain.enums.TransportType;
