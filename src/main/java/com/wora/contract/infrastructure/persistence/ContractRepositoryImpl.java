@@ -1,6 +1,6 @@
 package com.wora.contract.infrastructure.persistence;
 
-import com.wora.common.repositories.BaseRepositoryImpl;
+import com.wora.common.infrastructure.persistence.BaseRepositoryImpl;
 import com.wora.contract.domain.entities.Contract;
 import com.wora.contract.domain.enums.ContractStatus;
 import com.wora.contract.domain.repositories.ContractRepository;

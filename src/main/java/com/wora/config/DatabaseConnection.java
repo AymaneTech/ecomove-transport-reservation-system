@@ -28,17 +28,15 @@ public class DatabaseConnection {
         }
     }
 
-    public static boolean closeConnection() {
+    public static void closeConnection() {
         if (instance != null) {
             try {
                 instance.getConnection().close();
                 instance = null;
-                return true;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        return false;
     }
 
     private void init() throws SQLException {

@@ -40,24 +40,25 @@ public class PartnerServiceImpl implements PartnerService {
     public void create(CreatePartnerDto dto) {
         final Partner partner = mapper.map(dto);
         repository.create(partner);
-        System.out.println("partner created successfully");
     }
 
     @Override
     public void update(PartnerId id, UpdatePartnerDto dto) {
         repository.update(id.value(), mapper.map(dto, id.value()));
-        System.out.println("partner update successfully");
     }
 
     @Override
     public void delete(PartnerId id) {
         repository.delete(id.value());
-        System.out.println("partner deleted successfully");
     }
 
     @Override
     public void changeStatus(PartnerId id, PartnerStatus status) {
-        repository.delete(id.value());
-        System.out.println("partner deleted successfully");
+        repository.changeStatus(id.value(), status);
+    }
+
+    @Override
+    public Boolean existsById(PartnerId id) {
+        return repository.existsById(id.value());
     }
 }

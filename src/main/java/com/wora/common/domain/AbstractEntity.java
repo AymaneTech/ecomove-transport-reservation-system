@@ -1,4 +1,4 @@
-package com.wora.common.models;
+package com.wora.common.domain;
 
 import java.util.Date;
 

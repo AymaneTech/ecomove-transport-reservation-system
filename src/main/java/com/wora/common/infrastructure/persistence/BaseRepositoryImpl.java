@@ -1,7 +1,6 @@
-package com.wora.common.repositories;
+package com.wora.common.infrastructure.persistence;
 
-import com.wora.common.contracts.BaseEntityResultSetMapper;
-import com.wora.common.contracts.BaseRepository;
+import com.wora.common.infrastructure.mappers.BaseEntityResultSetMapper;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
     @Override
     public List<Entity> findAll() {
         final List<Entity> entities = new ArrayList<>();
-        final String query = "SELECT * FROM " + tableName + " WHERE deleted_at is null";
+        final String query = "SELECT * FROM " + tableName + " WHERE deleted_at IS NULL";
 
         executeQueryStatement(query, resultSet -> {
             while (resultSet.next()) {
@@ -36,12 +35,13 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
     }
 
     @Override
-    public Optional<Entity> findById(ID id) {
+    public Optional<Entity> findById(final ID id) {
         final AtomicReference<Optional<Entity>> entity = new AtomicReference<>(Optional.empty());
-        final String query = "SELECT * FROM " + tableName + "WHERE id = ? AND deleted_at is null";
+        final String query = "SELECT * FROM " + tableName + " WHERE id = CAST (? AS uuid) AND deleted_at is null";
 
         executeQueryPreparedStatement(query, stmt -> {
-            stmt.setString(1, id.toString());
+            System.out.println("i'm here trying find by id");
+            stmt.setObject(1, id.toString());
             final ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 entity.set(Optional.of(mapper.map(resultSet)));
@@ -51,14 +51,32 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
     }
 
     @Override
-    public void delete(ID id) {
+    public Boolean existsById(final ID id) {
+        final String query = "SELECT EXISTS (SELECT 1 FROM " + tableName + " WHERE id = CAST (? AS uuid))";
+        AtomicReference<Boolean> exists = new AtomicReference<>(false);
+        executeQueryPreparedStatement(query, stmt -> {
+            stmt.setObject(1, id.toString());
+            final ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                exists.set(resultSet.getBoolean(1));
+            }
+        });
+        return exists.get();
+    }
+
+    @Override
+    public void delete(final ID id) {
         final String query = String.format("""
                 UPDATE %s
-                SET deleted_at = CURRENT_TIMESTAMP 
-                WHERE id = ?""", tableName);
+                SET deleted_at = CURRENT_TIMESTAMP
+                WHERE id = CAST(? AS uuid)""", tableName);
 
         executeQueryPreparedStatement(query, stmt -> {
             stmt.setString(1, id.toString());
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new RuntimeException("error while deleting this");
+            }
         });
     }
 }

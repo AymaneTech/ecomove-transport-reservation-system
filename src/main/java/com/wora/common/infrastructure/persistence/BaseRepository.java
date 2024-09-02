@@ -1,4 +1,4 @@
-package com.wora.common.contracts;
+package com.wora.common.infrastructure.persistence;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +14,6 @@ public interface BaseRepository<Entity, ID> {
     void update(ID id, Entity entity);
 
     void delete(ID id);
+
+    Boolean existsById(ID id);
 }

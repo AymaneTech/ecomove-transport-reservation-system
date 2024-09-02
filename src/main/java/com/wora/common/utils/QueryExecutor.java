@@ -1,6 +1,6 @@
 package com.wora.common.utils;
 
-import com.wora.common.contracts.SQLConsumer;
+import com.wora.common.infrastructure.persistence.SQLConsumer;
 import com.wora.config.DatabaseConnection;
 
 import java.sql.*;
@@ -21,9 +21,7 @@ public class QueryExecutor {
                 throw new RuntimeException("database operation failed");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("database operation failed");
-        } finally {
-            DatabaseConnection.closeConnection();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -33,8 +31,6 @@ public class QueryExecutor {
             executor.accept(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            DatabaseConnection.closeConnection();
         }
     }
 
@@ -43,8 +39,6 @@ public class QueryExecutor {
             executor.accept(stmt);
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            DatabaseConnection.closeConnection();
         }
     }
 }

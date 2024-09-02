@@ -1,6 +1,6 @@
 package com.wora.contract.domain.entities;
 
-import com.wora.common.models.AbstractEntity;
+import com.wora.common.domain.AbstractEntity;
 import com.wora.contract.domain.enums.ContractStatus;
 import com.wora.contract.domain.valueObjects.ContractId;
 import com.wora.partner.domain.valueObjects.PartnerId;

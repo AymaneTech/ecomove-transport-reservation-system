@@ -1,6 +1,6 @@
 package com.wora.discount.domain.repositories;
 
-import com.wora.common.contracts.BaseRepository;
+import com.wora.common.infrastructure.persistence.BaseRepository;
 import com.wora.discount.domain.entities.Discount;
 import com.wora.discount.domain.enums.DiscountStatus;
 

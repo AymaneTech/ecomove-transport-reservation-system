@@ -21,4 +21,6 @@ public interface PartnerService {
     void delete(PartnerId id);
 
     void changeStatus(PartnerId id, PartnerStatus status);
+
+    Boolean existsById(PartnerId id);
 }

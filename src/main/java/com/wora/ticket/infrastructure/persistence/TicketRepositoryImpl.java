@@ -1,6 +1,6 @@
 package com.wora.ticket.infrastructure.persistence;
 
-import com.wora.common.repositories.BaseRepositoryImpl;
+import com.wora.common.infrastructure.persistence.BaseRepositoryImpl;
 import com.wora.ticket.domain.entities.Ticket;
 import com.wora.ticket.domain.enums.TicketStatus;
 import com.wora.ticket.domain.repositories.TicketRepository;

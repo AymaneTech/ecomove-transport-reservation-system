@@ -1,4 +1,4 @@
-package com.wora.common.contracts;
+package com.wora.common.infrastructure.persistence;
 
 import java.sql.SQLException;
 

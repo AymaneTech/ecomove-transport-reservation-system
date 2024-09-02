@@ -1,6 +1,6 @@
 package com.wora.common.utils;
 
-import com.wora.common.models.enums.Color;
+import com.wora.common.domain.Color;
 
 public class Print {
     public static void print(Object message) {

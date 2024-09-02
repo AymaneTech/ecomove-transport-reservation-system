@@ -1,6 +1,6 @@
 package com.wora.ticket.domain.entities;
 
-import com.wora.common.models.AbstractEntity;
+import com.wora.common.domain.AbstractEntity;
 import com.wora.contract.domain.valueObjects.ContractId;
 import com.wora.partner.domain.enums.TransportType;
 import com.wora.ticket.domain.enums.TicketStatus;

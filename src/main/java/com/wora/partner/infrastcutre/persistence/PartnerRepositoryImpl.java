@@ -1,6 +1,6 @@
 package com.wora.partner.infrastcutre.persistence;
 
-import com.wora.common.repositories.BaseRepositoryImpl;
+import com.wora.common.infrastructure.persistence.BaseRepositoryImpl;
 import com.wora.partner.domain.entities.Partner;
 import com.wora.partner.domain.enums.PartnerStatus;
 import com.wora.partner.domain.repositories.PartnerRepository;
@@ -25,7 +25,7 @@ public class PartnerRepositoryImpl extends BaseRepositoryImpl<Partner, UUID> imp
         final String query = String.format("""
                 INSERT INTO %s 
                 (name, commercial_name, commercial_phonenumber, commercial_email, geographical_area, special_condition, transport_type, partner_status, id) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, CAST(? AS transport_type), CAST(? AS partner_status))
+                VALUES (?, ?, ?, ?, ?, ?, CAST(? AS transport_type), CAST(? AS partner_status), ?)
                 """, tableName);
 
         executeUpdatePreparedStatement(query, stmt -> mapper.map(partner, stmt));
@@ -34,17 +34,18 @@ public class PartnerRepositoryImpl extends BaseRepositoryImpl<Partner, UUID> imp
     @Override
     public void update(UUID id, Partner partner) {
         final String query = String.format("""
-                UPDATE %s 
-                SET commercial_name = ?, 
-                    commercial_phone_number = ?, 
-                    commercial_email = ?, 
-                    geographical_area = ?, 
-                    special_condition = ?, 
-                    transport_type = ?, 
-                    partner_status = ?,
+                UPDATE %s
+                SET name = ?,
+                    commercial_name = ?,
+                    commercial_phonenumber = ?,
+                    commercial_email = ?,
+                    geographical_area = ?,
+                    special_condition = ?,
+                    transport_type = CAST(? AS transport_type),
+                    partner_status = CAST(? AS partner_status),
                     updated_at = CURRENT_TIMESTAMP
                 WHERE id = ?
-                AND WHERE deleted_at IS NULL
+                AND deleted_at IS NULL
                 """, tableName);
 
         executeUpdatePreparedStatement(query, stmt -> mapper.map(partner, stmt));

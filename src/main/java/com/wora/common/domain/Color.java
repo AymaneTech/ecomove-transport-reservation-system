@@ -1,4 +1,4 @@
-package com.wora.common.models.enums;
+package com.wora.common.domain;
 
 public enum Color {
 

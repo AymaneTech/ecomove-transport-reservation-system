@@ -1,6 +1,6 @@
 package com.wora.discount.infrastructure.mappers;
 
-import com.wora.common.contracts.BaseEntityResultSetMapper;
+import com.wora.common.infrastructure.mappers.BaseEntityResultSetMapper;
 import com.wora.contract.domain.valueObjects.ContractId;
 import com.wora.discount.domain.entities.Discount;
 import com.wora.discount.domain.enums.DiscountStatus;

@@ -1,6 +1,6 @@
 package com.wora.partner.domain.entities;
 
-import com.wora.common.models.AbstractEntity;
+import com.wora.common.domain.AbstractEntity;
 import com.wora.partner.domain.enums.PartnerStatus;
 import com.wora.partner.domain.enums.TransportType;
 import com.wora.partner.domain.valueObjects.CommercialInfo;

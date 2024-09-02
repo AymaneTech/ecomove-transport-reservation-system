@@ -1,6 +1,6 @@
 package com.wora.discount.domain.entities;
 
-import com.wora.common.models.AbstractEntity;
+import com.wora.common.domain.AbstractEntity;
 import com.wora.contract.domain.valueObjects.ContractId;
 import com.wora.discount.domain.enums.DiscountStatus;
 import com.wora.discount.domain.valueObjects.DiscountId;

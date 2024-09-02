@@ -1,6 +1,6 @@
 package com.wora.discount.infrastructure.persistence;
 
-import com.wora.common.repositories.BaseRepositoryImpl;
+import com.wora.common.infrastructure.persistence.BaseRepositoryImpl;
 import com.wora.discount.domain.entities.Discount;
 import com.wora.discount.domain.enums.DiscountStatus;
 import com.wora.discount.domain.repositories.DiscountRepository;

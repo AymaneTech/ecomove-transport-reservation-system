@@ -1,6 +1,6 @@
 package com.wora.ticket.domain.repositories;
 
-import com.wora.common.contracts.BaseRepository;
+import com.wora.common.infrastructure.persistence.BaseRepository;
 import com.wora.ticket.domain.entities.Ticket;
 import com.wora.ticket.domain.enums.TicketStatus;
 

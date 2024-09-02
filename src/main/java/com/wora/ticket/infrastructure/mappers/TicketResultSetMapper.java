@@ -1,6 +1,6 @@
 package com.wora.ticket.infrastructure.mappers;
 
-import com.wora.common.contracts.BaseEntityResultSetMapper;
+import com.wora.common.infrastructure.mappers.BaseEntityResultSetMapper;
 import com.wora.contract.domain.valueObjects.ContractId;
 import com.wora.partner.domain.enums.TransportType;
 import com.wora.ticket.domain.entities.Ticket;
