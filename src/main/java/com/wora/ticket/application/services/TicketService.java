@@ -21,4 +21,6 @@ public interface TicketService {
     void delete(TicketId id);
 
     void changeStatus(TicketId id, TicketStatus status);
+
+    Boolean existsById(TicketId id);
 }

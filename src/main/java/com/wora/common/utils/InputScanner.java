@@ -1,7 +1,10 @@
 package com.wora.common.utils;
 
+import com.wora.ticket.domain.valueObjects.Price;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Currency;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -75,5 +78,12 @@ public class InputScanner {
 
         System.out.println("result is boolean : " + result);
         return result;
+    }
+
+    public static Price scanPrice(String prompt) {
+        final Float amount = scanFloat(prompt);
+        final String currencyCode = scanString("Enter currency code: ");
+        final Currency currency = Currency.getInstance(currencyCode);
+        return new Price(amount, currency);
     }
 }

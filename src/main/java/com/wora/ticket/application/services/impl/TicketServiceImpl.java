@@ -60,4 +60,9 @@ public class TicketServiceImpl implements TicketService {
     public void changeStatus(TicketId id, TicketStatus status) {
         repository.changeStatus(id.value(), status);
     }
+
+    @Override
+    public Boolean existsById(TicketId id) {
+        return repository.existsById(id.value());
+    }
 }
