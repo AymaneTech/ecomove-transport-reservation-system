@@ -57,6 +57,7 @@ public class PartnerRepositoryImpl extends BaseRepositoryImpl<Partner, UUID> imp
         final String query = String.format("""
                 UPDATE %s
                 SET partner_status = ?
+                updated_at CURRENT_TIMESTAMP
                 WHERE id = ?
                 """, tableName);
 

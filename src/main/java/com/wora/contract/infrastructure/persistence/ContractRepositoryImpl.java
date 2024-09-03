@@ -51,6 +51,7 @@ public class ContractRepositoryImpl extends BaseRepositoryImpl<Contract, UUID> i
         final String query = String.format("""
                 UPDATE %s 
                 SET contract_status = ?
+                updated_at CURRENT_TIMESTAMP
                 WHERE id = ?
                 """);
         executeUpdatePreparedStatement(query, stmt -> {

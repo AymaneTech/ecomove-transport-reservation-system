@@ -212,8 +212,8 @@ public class DiscountUi {
 
     private String getTable(List<DiscountResponse> discounts) {
         return AsciiTable.getTable(discounts, Arrays.asList(
-                new Column().with(discountResponse -> discountResponse.id().toString()),
-                new Column().header("Contract ID").with(discountResponse -> discountResponse.contract().id().toString()),
+                new Column().with(discountResponse -> discountResponse.id().value().toString()),
+                new Column().header("Contract ID").with(discountResponse -> discountResponse.contract().id().value().toString()),
                 new Column().header("Name").with(DiscountResponse::name),
                 new Column().header("Description").with(DiscountResponse::description),
                 new Column().header("Conditions").with(DiscountResponse::conditions),
@@ -221,7 +221,7 @@ public class DiscountUi {
                 new Column().header("Started At").with(discountResponse -> discountResponse.startedAt().toString()),
                 new Column().header("Ends At").with(discountResponse -> discountResponse.endsAt().toString()),
                 new Column().header("Status").with(discountResponse -> discountResponse.status().toString()),
-                new Column().header("Created At").with(discountResponse -> discountResponse.createdAt().toString()),
+                new Column().header("Created At").with(discountResponse -> discountResponse.createdAt() != null ? discountResponse.createdAt().toString() : "not saved"),
                 new Column().header("Updated At").with(discountResponse -> discountResponse.updatedAt() != null ? discountResponse.updatedAt().toString() : "Not Updated Yet")
         ));
     }

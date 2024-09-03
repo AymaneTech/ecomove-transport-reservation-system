@@ -52,6 +52,7 @@ public class TicketRepositoryImpl extends BaseRepositoryImpl<Ticket, UUID> imple
         final String query = String.format("""
                 UPDATE %s
                 SET ticket_status = ?
+                updated_at CURRENT_TIMESTAMP
                 WHERE id = ?
                 """, tableName);
 

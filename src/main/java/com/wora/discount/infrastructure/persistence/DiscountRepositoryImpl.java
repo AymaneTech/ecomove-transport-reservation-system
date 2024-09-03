@@ -47,6 +47,7 @@ public class DiscountRepositoryImpl extends BaseRepositoryImpl<Discount, UUID> i
         final String query = String.format("""
                 UPDATE %s
                 SET status = CAST(? AS discount_status)
+                updated_at CURRENT_TIMESTAMP
                 WHERE id = ?""", tableName);
 
         executeUpdatePreparedStatement(query, stmt -> {
