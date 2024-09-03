@@ -23,8 +23,8 @@ public class TicketRepositoryImpl extends BaseRepositoryImpl<Ticket, UUID> imple
     public void create(Ticket ticket) {
         final String query = String.format("""
                 INSERT INTO %s
-                (contract_id, selling_price_amount, selling_price_currency, purchase_price_amount, purchase_purchase_currency, selling_date, transport_type, ticket_status, id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, CAST(? AS contract_status))
+                (contract_id, selling_price_amount, selling_price_currency, purchase_price_amount, purchase_price_currency, transport_type, ticket_status, id)
+                VALUES (?, ?, ?, ?, ?, CAST(? AS transport_type), CAST(? AS ticket_status), ?)
                 """, tableName);
         executeUpdatePreparedStatement(query, stmt -> mapper.map(ticket, stmt));
     }
@@ -43,7 +43,7 @@ public class TicketRepositoryImpl extends BaseRepositoryImpl<Ticket, UUID> imple
                 ticket_status = (CAST ? AS ticket_status)
                 WHERE id = ?,
                 AND deleted_at IS NOT NULL
-                """);
+                """, tableName);
         executeUpdatePreparedStatement(query, stmt -> mapper.map(ticket, stmt));
     }
 

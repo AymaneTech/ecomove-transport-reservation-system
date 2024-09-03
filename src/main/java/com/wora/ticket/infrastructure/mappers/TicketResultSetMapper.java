@@ -8,10 +8,10 @@ import com.wora.ticket.domain.enums.TicketStatus;
 import com.wora.ticket.domain.valueObjects.Price;
 import com.wora.ticket.domain.valueObjects.TicketId;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Currency;
 import java.util.UUID;
 
@@ -49,15 +49,14 @@ public class TicketResultSetMapper implements BaseEntityResultSetMapper<Ticket> 
         try {
             stmt.setObject(count++, ticket.getContractId().value());
             stmt.setObject(count++, ticket.getSellingPrice().amount());
-            stmt.setObject(count++, ticket.getSellingPrice().currency());
+            stmt.setObject(count++, ticket.getSellingPrice().currency().getCurrencyCode());
             stmt.setObject(count++, ticket.getPurchasePrice().amount());
-            stmt.setObject(count++, ticket.getPurchasePrice().currency());
-            stmt.setDate(count++, new Date(ticket.getSellingDate().getTime()));
+            stmt.setObject(count++, ticket.getPurchasePrice().currency().getCurrencyCode());
             stmt.setObject(count++, ticket.getTransportType().toString());
             stmt.setObject(count++, ticket.getStatus().toString());
-            stmt.setObject(count++, ticket.getId());
+            stmt.setObject(count++, ticket.getId().value());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
