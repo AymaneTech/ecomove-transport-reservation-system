@@ -23,14 +23,19 @@ import com.wora.partner.domain.repositories.PartnerRepository;
 import com.wora.partner.infrastcutre.mappers.PartnerResultSetMapper;
 import com.wora.partner.infrastcutre.persistence.PartnerRepositoryImpl;
 import com.wora.partner.infrastcutre.presentation.PartnerUi;
+import com.wora.ticket.application.mappers.TicketMapper;
+import com.wora.ticket.application.services.TicketService;
+import com.wora.ticket.application.services.impl.TicketServiceImpl;
+import com.wora.ticket.domain.repositories.TicketRepository;
+import com.wora.ticket.infrastructure.mappers.TicketResultSetMapper;
+import com.wora.ticket.infrastructure.persistence.TicketRepositoryImpl;
+import com.wora.ticket.infrastructure.presentation.TicketUi;
 
 public class App {
     public static void main(String[] args) {
-
         final MainMenu menu = getMainMenu();
 
         menu.showMenu();
-
     }
 
     private static MainMenu getMainMenu() {
@@ -46,11 +51,16 @@ public class App {
         final DiscountService discountService = new DiscountServiceImpl(discountRepository, contractService, new DiscountMapper());
         final DiscountUi discountUi = new DiscountUi(discountService, contractService);
 
+        final TicketRepository ticketRepository = new TicketRepositoryImpl(new TicketResultSetMapper());
+        final TicketService ticketService = new TicketServiceImpl(ticketRepository, contractService, new TicketMapper());
+        final TicketUi ticketUi = new TicketUi(ticketService, contractService);
 
-        final MainMenu menu = new MainMenu(partnerUi, contractUi, discountUi);
+
+        final MainMenu menu = new MainMenu(partnerUi, contractUi, discountUi, ticketUi);
         partnerUi.setMenu(menu);
         contractUi.setMenu(menu);
         discountUi.setMenu(menu);
+        ticketUi.setMenu(menu);
         return menu;
     }
 }

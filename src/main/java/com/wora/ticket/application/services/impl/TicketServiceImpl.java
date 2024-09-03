@@ -8,6 +8,7 @@ import com.wora.ticket.application.mappers.TicketMapper;
 import com.wora.ticket.application.services.TicketService;
 import com.wora.ticket.domain.entities.Ticket;
 import com.wora.ticket.domain.enums.TicketStatus;
+import com.wora.ticket.domain.exceptions.TicketNotFoundException;
 import com.wora.ticket.domain.repositories.TicketRepository;
 import com.wora.ticket.domain.valueObjects.TicketId;
 
@@ -36,7 +37,7 @@ public class TicketServiceImpl implements TicketService {
     public TicketResponse findById(TicketId id) {
         return repository.findById(id.value())
                 .map(ticket -> mapper.map(ticket, contractService.findById(ticket.getContractId())))
-                .orElseThrow();
+                .orElseThrow(() -> new TicketNotFoundException(id.value()));
     }
 
     @Override

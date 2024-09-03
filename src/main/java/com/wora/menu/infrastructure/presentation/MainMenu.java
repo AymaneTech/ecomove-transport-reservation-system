@@ -4,16 +4,19 @@ import com.wora.common.utils.InputScanner;
 import com.wora.contract.infrastructure.presentation.ContractUi;
 import com.wora.discount.infrastructure.presentation.DiscountUi;
 import com.wora.partner.infrastcutre.presentation.PartnerUi;
+import com.wora.ticket.infrastructure.presentation.TicketUi;
 
 public class MainMenu {
     private final PartnerUi partnerUi;
     private final ContractUi contractUi;
     private final DiscountUi discountUi;
+    private final TicketUi ticketUi;
 
-    public MainMenu(PartnerUi partnerUi, ContractUi contractUi, DiscountUi discountUi) {
+    public MainMenu(PartnerUi partnerUi, ContractUi contractUi, DiscountUi discountUi, TicketUi ticketUi) {
         this.partnerUi = partnerUi;
         this.contractUi = contractUi;
         this.discountUi = discountUi;
+        this.ticketUi = ticketUi;
     }
 
     public void showMenu() {
@@ -31,7 +34,11 @@ public class MainMenu {
                 case 1 -> partnerUi.showMenu();
                 case 2 -> contractUi.showMenu();
                 case 3 -> discountUi.showMenu();
-                default -> throw new IllegalStateException("Unexpected value: " + choice);
+                case 4 -> ticketUi.showMenu();
+                default -> {
+                    System.out.println("invalid choice");
+                    showMenu();
+                }
             }
         }
 
