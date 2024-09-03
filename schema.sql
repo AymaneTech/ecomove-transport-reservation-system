@@ -1,0 +1,69 @@
+CREATE TYPE transport_type AS ENUM ('PLANE', 'TRAIN', 'BUS');
+CREATE TYPE partner_status  AS ENUM ('ACTIVE', 'DISABLED', 'SUSPENDED');
+CREATE TYPE contract_status AS ENUM ('PENDING', 'DONE', 'SUSPENDED', 'IN_PROGRESS');
+CREATE TYPE reduction_type AS ENUM ('PERCENTAGE', 'FIXED_PRICE');
+CREATE TYPE offer_status AS ENUM ('ACTIVE', 'SUSPENDED', 'EXPIRED');
+CREATE TYPE ticket_status AS ENUM ('SOLD', 'CANCELED', 'PENDING');
+
+CREATE TABLE IF NOT EXISTS partners (
+    id UUID,
+    name VARCHAR(255) NOT NULL,
+    commercial_name VARCHAR(255) NOT NULL,
+    commercial_phoneNumber VARCHAR(255) NOT NULL,
+    commercial_email VARCHAR(255) NOT NULL,
+    geographical_area VARCHAR(255),
+    special_condition VARCHAR(255),
+    transport_type transport_type,
+    partner_status partner_status,
+    created_at TIMESTAMP WITHOUT ZONE DEFAULT CURRENT_TIMESTAMP WITHOUT ZONE,
+
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS contracts (
+    id UUID,
+    partner_id UUID NOT NULL,
+    special_priceAmount Float,
+    agreement_condition TEXT,
+    renewable BOOL,
+    started_at TIMESTAMP WITHOUT ZONE,
+    ends_at TIMESTAMP WITHOUT ZONE,
+    contract_status contract_status,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (partner_id) REFERENCES partners(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS discounts (
+    id UUID,
+    contract_id UUID,
+    name VARCHAR(255),
+    description TEXT,
+    reduction_value FLOAT,
+    conditions TEXT,
+    started_at TIMESTAMP WITHOUT ZONE,
+    ENDS_AT TIMESTAMP WITHOUT ZONE,
+    reduction_type reduction_type,
+    offer_status offer_status,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (contract_id) REFERENCES contracts(id)
+);
+
+CREATE TABLE IF NOT EXISTS tickets (
+    id UUID,
+    contract_id UUID,
+    selling_price_amount FLOAT,
+    selling_price_currency VARCHAR(3),
+    purchase_price_amount FLOAT,
+    purchase_price_currency VARCHAR(3),
+    selling_date TIMESTAMP WITHOUT ZONE,
+    ticket_status ticket_status,
+    transport_type transport_type,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (contract_id) REFERENCES contracts(id)
+);
+
+

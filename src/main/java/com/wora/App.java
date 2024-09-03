@@ -1,18 +1,66 @@
 package com.wora;
 
-import ma.codex.framework.Kernel;
 
-import java.sql.SQLException;
+import com.wora.contract.application.mappers.ContractMapper;
+import com.wora.contract.application.services.ContractService;
+import com.wora.contract.application.services.impl.ContractServiceImpl;
+import com.wora.contract.domain.repositories.ContractRepository;
+import com.wora.contract.infrastructure.mappers.ContractResultSetMapper;
+import com.wora.contract.infrastructure.persistence.ContractRepositoryImpl;
+import com.wora.contract.infrastructure.presentation.ContractUi;
+import com.wora.discount.application.mappers.DiscountMapper;
+import com.wora.discount.application.services.DiscountService;
+import com.wora.discount.application.services.impl.DiscountServiceImpl;
+import com.wora.discount.domain.repositories.DiscountRepository;
+import com.wora.discount.infrastructure.mappers.DiscountResultSetMapper;
+import com.wora.discount.infrastructure.persistence.DiscountRepositoryImpl;
+import com.wora.discount.infrastructure.presentation.DiscountUi;
+import com.wora.menu.infrastructure.presentation.MainMenu;
+import com.wora.partner.application.mappers.PartnerMapper;
+import com.wora.partner.application.services.PartnerService;
+import com.wora.partner.application.services.impl.PartnerServiceImpl;
+import com.wora.partner.domain.repositories.PartnerRepository;
+import com.wora.partner.infrastcutre.mappers.PartnerResultSetMapper;
+import com.wora.partner.infrastcutre.persistence.PartnerRepositoryImpl;
+import com.wora.partner.infrastcutre.presentation.PartnerUi;
+import com.wora.ticket.application.mappers.TicketMapper;
+import com.wora.ticket.application.services.TicketService;
+import com.wora.ticket.application.services.impl.TicketServiceImpl;
+import com.wora.ticket.domain.repositories.TicketRepository;
+import com.wora.ticket.infrastructure.mappers.TicketResultSetMapper;
+import com.wora.ticket.infrastructure.persistence.TicketRepositoryImpl;
+import com.wora.ticket.infrastructure.presentation.TicketUi;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args ) throws SQLException {
-        Kernel.run(App.class);
+public class App {
+    public static void main(String[] args) {
+        final MainMenu menu = getMainMenu();
 
-        System.out.println("hello world");
+        menu.showMenu();
+    }
+
+    private static MainMenu getMainMenu() {
+        final PartnerRepository partnerRepository = new PartnerRepositoryImpl(new PartnerResultSetMapper());
+        final PartnerService partnerService = new PartnerServiceImpl(partnerRepository, new PartnerMapper());
+        final PartnerUi partnerUi = new PartnerUi(partnerService);
+
+        final ContractRepository contractRepository = new ContractRepositoryImpl(new ContractResultSetMapper());
+        final ContractService contractService = new ContractServiceImpl(contractRepository, partnerService, new ContractMapper());
+        final ContractUi contractUi = new ContractUi(contractService, partnerService);
+
+        final DiscountRepository discountRepository = new DiscountRepositoryImpl(new DiscountResultSetMapper());
+        final DiscountService discountService = new DiscountServiceImpl(discountRepository, contractService, new DiscountMapper());
+        final DiscountUi discountUi = new DiscountUi(discountService, contractService);
+
+        final TicketRepository ticketRepository = new TicketRepositoryImpl(new TicketResultSetMapper());
+        final TicketService ticketService = new TicketServiceImpl(ticketRepository, contractService, new TicketMapper());
+        final TicketUi ticketUi = new TicketUi(ticketService, contractService);
+
+
+        final MainMenu menu = new MainMenu(partnerUi, contractUi, discountUi, ticketUi);
+        partnerUi.setMenu(menu);
+        contractUi.setMenu(menu);
+        discountUi.setMenu(menu);
+        ticketUi.setMenu(menu);
+        return menu;
     }
 }
