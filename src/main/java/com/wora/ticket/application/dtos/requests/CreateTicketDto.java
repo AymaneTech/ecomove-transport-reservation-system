@@ -11,7 +11,6 @@ public record CreateTicketDto(
         ContractId contractId,
         Price sellingPrice,
         Price purchasePrice,
-        Date sellingDate,
         TransportType transportType,
         TicketStatus status
 ) {

@@ -18,7 +18,7 @@ public class Ticket extends AbstractEntity<TicketId> {
     private TransportType transportType;
     private TicketStatus status;
 
-    public Ticket(TicketId id, ContractId contractId, Price sellingPrice, Price purchasePrice, Date sellingDate, TransportType transportType, TicketStatus status) {
+    public Ticket(TicketId id, ContractId contractId, Price sellingPrice, Price purchasePrice, TransportType transportType, TicketStatus status) {
         this.id = id;
         this.contractId = contractId;
         this.sellingPrice = sellingPrice;
