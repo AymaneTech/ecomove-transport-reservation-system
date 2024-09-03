@@ -1,5 +1,7 @@
 package com.wora.common.infrastructure.persistence;
 
+import com.wora.contract.domain.exceptions.ContractNotFoundException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +13,7 @@ public interface BaseRepository<Entity, ID> {
 
     void create(Entity entity);
 
-    void update(ID id, Entity entity);
+    void update(ID id, Entity entity) throws ContractNotFoundException;
 
     void delete(ID id);
 

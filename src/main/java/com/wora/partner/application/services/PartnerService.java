@@ -4,6 +4,7 @@ import com.wora.partner.application.dtos.requests.CreatePartnerDto;
 import com.wora.partner.application.dtos.requests.UpdatePartnerDto;
 import com.wora.partner.application.dtos.responses.PartnerResponse;
 import com.wora.partner.domain.enums.PartnerStatus;
+import com.wora.partner.domain.exceptions.PartnerNotFoundException;
 import com.wora.partner.domain.valueObjects.PartnerId;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface PartnerService {
 
     List<PartnerResponse> findAll();
 
-    PartnerResponse findById(PartnerId id);
+    PartnerResponse findById(PartnerId id) throws PartnerNotFoundException;
 
     void create(CreatePartnerDto dto);
 

@@ -9,6 +9,7 @@ import com.wora.partner.application.dtos.responses.PartnerResponse;
 import com.wora.partner.application.services.PartnerService;
 import com.wora.partner.domain.enums.PartnerStatus;
 import com.wora.partner.domain.enums.TransportType;
+import com.wora.partner.domain.exceptions.PartnerNotFoundException;
 import com.wora.partner.domain.valueObjects.CommercialInfo;
 import com.wora.partner.domain.valueObjects.PartnerId;
 
@@ -61,8 +62,13 @@ public class PartnerUi {
 
     public void listById() {
         final String partnerId = scanString("Please enter the ID of partner you are looking for: ");
-        final PartnerResponse partner = partnerService.findById(new PartnerId(UUID.fromString(partnerId)));
-        System.out.println(getTable(Collections.singletonList(partner)));
+        final PartnerResponse partner;
+        try {
+            partner = partnerService.findById(new PartnerId(UUID.fromString(partnerId)));
+            System.out.println(getTable(Collections.singletonList(partner)));
+        } catch (PartnerNotFoundException e) {
+            System.out.println("no partner with this id");
+        }
         this.showMenu();
     }
 
@@ -115,58 +121,59 @@ public class PartnerUi {
         final String id = scanString("Please enter the ID of the partner to update: ");
         final PartnerId partnerId = new PartnerId(UUID.fromString(id));
 
-        final PartnerResponse existingPartner = partnerService.findById(partnerId);
-        if (existingPartner == null) {
-            System.out.println("Partner not found with ID: " + partnerId);
-            return;
+        final PartnerResponse existingPartner;
+        try {
+            existingPartner = partnerService.findById(partnerId);
+
+            final List<TransportType> transportTypes = Arrays.asList(TransportType.values());
+            final List<PartnerStatus> partnerStatuses = Arrays.asList(PartnerStatus.values());
+
+            final String name = scanString("Enter new name (press Enter to keep current: " + existingPartner.name() + "): ");
+            final String updatedName = name.isEmpty() ? existingPartner.name() : name;
+
+            final String commercialName = scanString("Enter new commercial name (current: " + existingPartner.commercialName() + "): ");
+            final String updatedCommercialName = commercialName.isEmpty() ? existingPartner.commercialName() : commercialName;
+
+            final String commercialEmail = scanString("Enter new commercial email (current: " + existingPartner.commercialEmail() + "): ");
+            final String updatedCommercialEmail = commercialEmail.isEmpty() ? existingPartner.commercialEmail() : commercialEmail;
+
+            final String commercialPhone = scanString("Enter new commercial phone (current: " + existingPartner.commercialPhoneNumber() + "): ");
+            final String updatedCommercialPhone = commercialPhone.isEmpty() ? existingPartner.commercialPhoneNumber() : commercialPhone;
+
+            final String geographicalArea = scanString("Enter new geographical area (current: " + existingPartner.geographicalArea() + "): ");
+            final String updatedGeographicalArea = geographicalArea.isEmpty() ? existingPartner.geographicalArea() : geographicalArea;
+
+            final String specialCondition = scanString("Enter new special condition (current: " + existingPartner.specialCondition() + "): ");
+            final String updatedSpecialCondition = specialCondition.isEmpty() ? existingPartner.specialCondition() : specialCondition;
+
+            System.out.println("Current transport type: " + existingPartner.transportType());
+            for (int i = 0; i < transportTypes.size(); i++) {
+                System.out.println(i + "- " + transportTypes.get(i));
+            }
+            final int typeId = scanInt("Enter the number of the new transport type (or -1 to keep current): ");
+            final TransportType updatedTransportType = typeId >= 0 ? transportTypes.get(typeId) : existingPartner.transportType();
+
+            System.out.println("Current partner status: " + existingPartner.status());
+            for (int i = 0; i < partnerStatuses.size(); i++) {
+                System.out.println(i + "- " + partnerStatuses.get(i));
+            }
+            final int statusId = scanInt("Enter the number of the new partner status (or -1 to keep current): ");
+            final PartnerStatus updatedPartnerStatus = statusId >= 0 ? partnerStatuses.get(statusId) : existingPartner.status();
+
+            final UpdatePartnerDto partnerDto = new UpdatePartnerDto(
+                    updatedName,
+                    new CommercialInfo(updatedCommercialName, updatedCommercialPhone, updatedCommercialEmail),
+                    updatedGeographicalArea,
+                    updatedSpecialCondition,
+                    updatedTransportType,
+                    updatedPartnerStatus
+            );
+
+            partnerService.update(partnerId, partnerDto);
+            System.out.println("Partner updated successfully!");
+        } catch (PartnerNotFoundException e) {
+            System.out.println("partner with id " + id + " not found");
         }
-
-        final List<TransportType> transportTypes = Arrays.asList(TransportType.values());
-        final List<PartnerStatus> partnerStatuses = Arrays.asList(PartnerStatus.values());
-
-        final String name = scanString("Enter new name (press Enter to keep current: " + existingPartner.name() + "): ");
-        final String updatedName = name.isEmpty() ? existingPartner.name() : name;
-
-        final String commercialName = scanString("Enter new commercial name (current: " + existingPartner.commercialName() + "): ");
-        final String updatedCommercialName = commercialName.isEmpty() ? existingPartner.commercialName() : commercialName;
-
-        final String commercialEmail = scanString("Enter new commercial email (current: " + existingPartner.commercialEmail() + "): ");
-        final String updatedCommercialEmail = commercialEmail.isEmpty() ? existingPartner.commercialEmail() : commercialEmail;
-
-        final String commercialPhone = scanString("Enter new commercial phone (current: " + existingPartner.commercialPhoneNumber() + "): ");
-        final String updatedCommercialPhone = commercialPhone.isEmpty() ? existingPartner.commercialPhoneNumber() : commercialPhone;
-
-        final String geographicalArea = scanString("Enter new geographical area (current: " + existingPartner.geographicalArea() + "): ");
-        final String updatedGeographicalArea = geographicalArea.isEmpty() ? existingPartner.geographicalArea() : geographicalArea;
-
-        final String specialCondition = scanString("Enter new special condition (current: " + existingPartner.specialCondition() + "): ");
-        final String updatedSpecialCondition = specialCondition.isEmpty() ? existingPartner.specialCondition() : specialCondition;
-
-        System.out.println("Current transport type: " + existingPartner.transportType());
-        for (int i = 0; i < transportTypes.size(); i++) {
-            System.out.println(i + "- " + transportTypes.get(i));
-        }
-        final int typeId = scanInt("Enter the number of the new transport type (or -1 to keep current): ");
-        final TransportType updatedTransportType = typeId >= 0 ? transportTypes.get(typeId) : existingPartner.transportType();
-
-        System.out.println("Current partner status: " + existingPartner.status());
-        for (int i = 0; i < partnerStatuses.size(); i++) {
-            System.out.println(i + "- " + partnerStatuses.get(i));
-        }
-        final int statusId = scanInt("Enter the number of the new partner status (or -1 to keep current): ");
-        final PartnerStatus updatedPartnerStatus = statusId >= 0 ? partnerStatuses.get(statusId) : existingPartner.status();
-
-        final UpdatePartnerDto partnerDto = new UpdatePartnerDto(
-                updatedName,
-                new CommercialInfo(updatedCommercialName, updatedCommercialPhone, updatedCommercialEmail),
-                updatedGeographicalArea,
-                updatedSpecialCondition,
-                updatedTransportType,
-                updatedPartnerStatus
-        );
-
-        partnerService.update(partnerId, partnerDto);
-        System.out.println("Partner updated successfully!");
         this.showMenu();
     }
 

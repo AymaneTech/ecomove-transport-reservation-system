@@ -7,6 +7,7 @@ import com.wora.partner.application.mappers.PartnerMapper;
 import com.wora.partner.application.services.PartnerService;
 import com.wora.partner.domain.entities.Partner;
 import com.wora.partner.domain.enums.PartnerStatus;
+import com.wora.partner.domain.exceptions.PartnerNotFoundException;
 import com.wora.partner.domain.repositories.PartnerRepository;
 import com.wora.partner.domain.valueObjects.PartnerId;
 
@@ -30,10 +31,10 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
-    public PartnerResponse findById(PartnerId id) {
+    public PartnerResponse findById(PartnerId id) throws PartnerNotFoundException {
         return repository.findById(id.value())
                 .map(mapper::map)
-                .orElseThrow(() -> new RuntimeException("could not found the partner with id " + id.value()));
+                .orElseThrow(() -> new  PartnerNotFoundException(id.value()));
     }
 
     @Override

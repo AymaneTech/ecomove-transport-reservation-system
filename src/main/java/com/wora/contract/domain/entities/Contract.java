@@ -28,6 +28,13 @@ public class Contract extends AbstractEntity<ContractId> {
         this.partnerId = partnerId;
     }
 
+    public Contract(ContractId id, String specialPrice, String agreementCondition, Boolean renewable, Date startedAt, Date endsAt, ContractStatus status, PartnerId partnerId, Date createdAt, Date updatedAt, Date deletedAt) {
+        this(id, specialPrice, agreementCondition, renewable, startedAt, endsAt, status, partnerId);
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+    }
+
     @Override
     public ContractId getId() {
         return id;

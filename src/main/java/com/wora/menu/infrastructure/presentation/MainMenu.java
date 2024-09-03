@@ -1,13 +1,16 @@
 package com.wora.menu.infrastructure.presentation;
 
 import com.wora.common.utils.InputScanner;
+import com.wora.contract.infrastructure.presentation.ContractUi;
 import com.wora.partner.infrastcutre.presentation.PartnerUi;
 
 public class MainMenu {
     private final PartnerUi partnerUi;
+    private final ContractUi contractUi;
 
-    public MainMenu(PartnerUi partnerUi) {
+    public MainMenu(PartnerUi partnerUi, ContractUi contractUi) {
         this.partnerUi = partnerUi;
+        this.contractUi = contractUi;
     }
 
     public void showMenu() {
@@ -23,6 +26,7 @@ public class MainMenu {
 
             switch (choice) {
                 case 1 -> partnerUi.showMenu();
+                case 2 -> contractUi.showMenu();
                 default -> throw new IllegalStateException("Unexpected value: " + choice);
             }
         }

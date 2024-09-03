@@ -20,4 +20,6 @@ public interface ContractService {
     void delete(ContractId id);
 
     void changeStatus(ContractId id, ContractStatus status);
+
+    Boolean existsById(ContractId id);
 }

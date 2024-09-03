@@ -6,8 +6,6 @@ import com.wora.contract.application.dtos.responses.ContractResponse;
 import com.wora.contract.domain.entities.Contract;
 import com.wora.contract.domain.valueObjects.ContractId;
 import com.wora.partner.application.dtos.responses.PartnerResponse;
-import com.wora.partner.application.mappers.PartnerMapper;
-import com.wora.partner.domain.entities.Partner;
 
 import java.util.UUID;
 
@@ -48,7 +46,9 @@ public class ContractMapper {
                 contract.getStartedAt(),
                 contract.getEndsAt(),
                 contract.getStatus(),
-                partnerResponse
+                partnerResponse,
+                contract.getCreatedAt(),
+                contract.getUpdatedAt()
         );
     }
 }

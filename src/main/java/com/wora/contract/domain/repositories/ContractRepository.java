@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface ContractRepository extends BaseRepository<Contract, UUID> {
     void changeStatus(UUID id, ContractStatus status);
+
+    Boolean existsById(UUID id);
 }

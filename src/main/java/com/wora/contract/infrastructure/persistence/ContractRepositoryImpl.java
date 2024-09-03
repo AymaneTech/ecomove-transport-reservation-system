@@ -23,10 +23,11 @@ public class ContractRepositoryImpl extends BaseRepositoryImpl<Contract, UUID> i
     @Override
     public void create(Contract contract) {
         final String query = String.format("""
-                INSERT INTO %s
-                (id, special_price, agreement_condition, renewable, started_at, ends_at, status, partner_id)
-                VALUES (?, ?, ?, ?, ?, ?, CAST(? AS contract_status) ?)
+                    INSERT INTO %s
+                    (special_price, agreement_condition, renewable, started_at, ends_at, status, partner_id, id)
+                    VALUES (?, ?, ?, ?, ?, CAST(? AS contract_status), ?, ?)
                 """, tableName);
+
         executeUpdatePreparedStatement(query, stmt -> {
             mapper.map(contract, stmt);
         });
@@ -36,13 +37,12 @@ public class ContractRepositoryImpl extends BaseRepositoryImpl<Contract, UUID> i
     public void update(UUID id, Contract contract) {
         final String query = String.format("""
                 UPDATE %s
-                SET special_price = ?, agreement_condition = ?, renewable = ?, started_at = ?, ends_at = ?, status = ?, partner_id = ?, updated_at = CURRENT_TIMESTAMP
-                WHERE id = ?
+                SET special_price = ?, agreement_condition = ?, renewable = ?, started_at = ?, ends_at = ?, status = CAST(? AS contract_status), partner_id = ?, updated_at = CURRENT_TIMESTAMP
+                WHERE id = CAST(? as uuid)
                 AND deleted_at IS NULL
                 """, tableName);
         executeUpdatePreparedStatement(query, stmt -> {
             mapper.map(contract, stmt);
-            stmt.setString(8, id.toString());
         });
     }
 
