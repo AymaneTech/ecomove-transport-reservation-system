@@ -25,12 +25,12 @@ public class DiscountResultSetMapper implements BaseEntityResultSetMapper<Discou
                     resultSet.getString("description"),
                     resultSet.getString("conditions"),
                     new Reduction(
-                            resultSet.getFloat("reduction_type"),
-                            (ReductionType) resultSet.getObject("reduction_type")
+                            resultSet.getFloat("reduction_value"),
+                            ReductionType.valueOf(resultSet.getString("reduction_type"))
                     ),
                     resultSet.getDate("started_at"),
                     resultSet.getDate("ends_at"),
-                    (DiscountStatus) resultSet.getObject("status"),
+                    DiscountStatus.valueOf(resultSet.getString("status")),
                     resultSet.getDate("created_at"),
                     resultSet.getDate("updated_at"),
                     resultSet.getDate("deleted_at")
@@ -49,7 +49,7 @@ public class DiscountResultSetMapper implements BaseEntityResultSetMapper<Discou
             stmt.setString(count++, discount.getDescription());
             stmt.setString(count++, discount.getConditions());
             stmt.setObject(count++, discount.getReduction().value());
-            stmt.setObject(count++, discount.getReduction().type());
+            stmt.setObject(count++, discount.getReduction().type().toString());
             stmt.setDate(count++, new Date(discount.getStartedAt().getTime()));
             stmt.setDate(count++, new Date(discount.getEndsAt().getTime()));
             stmt.setObject(count++, discount.getStatus().toString());

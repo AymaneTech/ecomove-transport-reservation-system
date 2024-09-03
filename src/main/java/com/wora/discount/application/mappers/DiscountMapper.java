@@ -3,7 +3,7 @@ package com.wora.discount.application.mappers;
 import com.wora.contract.application.dtos.responses.ContractResponse;
 import com.wora.discount.application.dtos.requests.CreateDiscountDto;
 import com.wora.discount.application.dtos.requests.UpdateDiscountDto;
-import com.wora.discount.application.dtos.responses.DiscountResponseDto;
+import com.wora.discount.application.dtos.responses.DiscountResponse;
 import com.wora.discount.domain.entities.Discount;
 import com.wora.discount.domain.valueObjects.DiscountId;
 
@@ -37,8 +37,8 @@ public class DiscountMapper {
         );
     }
 
-    public DiscountResponseDto map(Discount discount, ContractResponse contractResponse) {
-        return new DiscountResponseDto(
+    public DiscountResponse map(Discount discount, ContractResponse contractResponse) {
+        return new DiscountResponse(
                 discount.getId(),
                 discount.getName(),
                 discount.getDescription(),

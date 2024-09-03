@@ -3,7 +3,7 @@ package com.wora.discount.application.services.impl;
 import com.wora.contract.application.services.ContractService;
 import com.wora.discount.application.dtos.requests.CreateDiscountDto;
 import com.wora.discount.application.dtos.requests.UpdateDiscountDto;
-import com.wora.discount.application.dtos.responses.DiscountResponseDto;
+import com.wora.discount.application.dtos.responses.DiscountResponse;
 import com.wora.discount.application.mappers.DiscountMapper;
 import com.wora.discount.application.services.DiscountService;
 import com.wora.discount.domain.enums.DiscountStatus;
@@ -24,7 +24,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public List<DiscountResponseDto> findAll() {
+    public List<DiscountResponse> findAll() {
         return repository.findAll()
                 .stream()
                 .map(discount -> mapper.map(discount, contractService.findById(discount.getContractId())))
@@ -32,7 +32,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public DiscountResponseDto findById(DiscountId id) {
+    public DiscountResponse findById(DiscountId id) {
         return repository.findById(id.value())
                 .map(discount -> mapper.map(discount, contractService.findById(discount.getContractId())))
                 .orElseThrow();
@@ -56,5 +56,10 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     public void changeStatus(DiscountId id, DiscountStatus status) {
         repository.changeStatus(id.value(), status);
+    }
+
+    @Override
+    public Boolean existsById(DiscountId id) {
+        return repository.existsById(id.value());
     }
 }

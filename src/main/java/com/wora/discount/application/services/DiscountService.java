@@ -2,16 +2,16 @@ package com.wora.discount.application.services;
 
 import com.wora.discount.application.dtos.requests.CreateDiscountDto;
 import com.wora.discount.application.dtos.requests.UpdateDiscountDto;
-import com.wora.discount.application.dtos.responses.DiscountResponseDto;
+import com.wora.discount.application.dtos.responses.DiscountResponse;
 import com.wora.discount.domain.enums.DiscountStatus;
 import com.wora.discount.domain.valueObjects.DiscountId;
 
 import java.util.List;
 
 public interface DiscountService {
-    List<DiscountResponseDto> findAll();
+    List<DiscountResponse> findAll();
 
-    DiscountResponseDto findById(DiscountId id);
+    DiscountResponse findById(DiscountId id);
 
     void create(CreateDiscountDto dto);
 
@@ -20,4 +20,6 @@ public interface DiscountService {
     void delete(DiscountId id);
 
     void changeStatus(DiscountId id, DiscountStatus status);
+
+    Boolean existsById(DiscountId id);
 }

@@ -39,7 +39,7 @@ public class ContractMapper {
 
     public ContractResponse map(Contract contract, PartnerResponse partnerResponse) {
         return new ContractResponse(
-                contract.getId().value(),
+                contract.getId(),
                 contract.getSpecialPrice(),
                 contract.getAgreementCondition(),
                 contract.getRenewable(),

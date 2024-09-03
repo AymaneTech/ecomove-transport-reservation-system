@@ -8,7 +8,7 @@ import com.wora.discount.domain.valueObjects.Reduction;
 
 import java.util.Date;
 
-public record DiscountResponseDto(
+public record DiscountResponse(
         DiscountId id,
         String name,
         String description,

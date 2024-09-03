@@ -28,7 +28,7 @@ public class DiscountRepositoryImpl extends BaseRepositoryImpl<Discount, UUID> i
                 (name, description, conditions, reduction_value, reduction_type, started_at, ends_at, status, contract_id,  id)
                 VALUES (?, ?, ?, ?, CAST(? AS reduction_type), ?, ?, CAST(? AS discount_status), ?, ?)""", tableName);
 
-        executeQueryPreparedStatement(query, stmt -> mapper.map(discount, stmt));
+        executeUpdatePreparedStatement(query, stmt -> mapper.map(discount, stmt));
     }
 
     @Override
