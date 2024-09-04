@@ -6,6 +6,8 @@ import com.wora.discount.infrastructure.presentation.DiscountUi;
 import com.wora.partner.infrastcutre.presentation.PartnerUi;
 import com.wora.ticket.infrastructure.presentation.TicketUi;
 
+import static com.wora.common.utils.InputScanner.clearBuffer;
+
 public class MainMenu {
     private final PartnerUi partnerUi;
     private final ContractUi contractUi;
@@ -20,26 +22,31 @@ public class MainMenu {
     }
 
     public void showMenu() {
-        while (true) {
-            System.out.println("\t 1- Manage Partners.");
-            System.out.println("\t 2- Manage Contracts.");
-            System.out.println("\t 2- Manage Discounts.");
-            System.out.println("\t 2- Manage Tickets.");
-            System.out.println("\t 0- Exit.");
+        try {
+            while (true) {
+                System.out.println("\t 1- Manage Partners.");
+                System.out.println("\t 2- Manage Contracts.");
+                System.out.println("\t 2- Manage Discounts.");
+                System.out.println("\t 2- Manage Tickets.");
+                System.out.println("\t 0- Exit.");
 
-            final Integer choice = InputScanner.scanInt("Please enter your choice:  ");
-            System.out.println("your choice is " + choice);
+                final Integer choice = InputScanner.scanInt("Please enter your choice:  ");
 
-            switch (choice) {
-                case 1 -> partnerUi.showMenu();
-                case 2 -> contractUi.showMenu();
-                case 3 -> discountUi.showMenu();
-                case 4 -> ticketUi.showMenu();
-                default -> {
-                    System.out.println("invalid choice");
-                    showMenu();
+                switch (choice) {
+                    case 1 -> partnerUi.showMenu();
+                    case 2 -> contractUi.showMenu();
+                    case 3 -> discountUi.showMenu();
+                    case 4 -> ticketUi.showMenu();
+                    default -> {
+                        System.out.println("invalid choice");
+                        showMenu();
+                    }
                 }
             }
+        } catch (Exception e) {
+            System.out.println("you enter a invalid choice");
+            clearBuffer();
+            showMenu();
         }
 
     }

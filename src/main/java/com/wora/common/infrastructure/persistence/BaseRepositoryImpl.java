@@ -40,7 +40,6 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
         final String query = "SELECT * FROM " + tableName + " WHERE id = CAST (? AS uuid) AND deleted_at is null";
 
         executeQueryPreparedStatement(query, stmt -> {
-            System.out.println("i'm here trying find by id");
             stmt.setObject(1, id.toString());
             final ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {

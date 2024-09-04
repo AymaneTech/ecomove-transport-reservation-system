@@ -40,7 +40,6 @@ public class PartnerUi {
         System.out.println("0- Back to main menu.");
 
         final Integer userChoice = scanInt("Please enter your choice:  ");
-        System.out.println("your choice is " + userChoice);
 
         switch (userChoice) {
             case 1 -> this.create();
@@ -61,6 +60,7 @@ public class PartnerUi {
     }
 
     public void listById() {
+        clearBuffer();
         final String partnerId = scanString("Please enter the ID of partner you are looking for: ");
         final PartnerResponse partner;
         try {
