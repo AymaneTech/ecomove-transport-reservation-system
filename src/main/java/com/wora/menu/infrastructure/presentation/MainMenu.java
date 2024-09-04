@@ -37,6 +37,7 @@ public class MainMenu {
                     case 2 -> contractUi.showMenu();
                     case 3 -> discountUi.showMenu();
                     case 4 -> ticketUi.showMenu();
+                    case 0 -> System.exit(0);
                     default -> {
                         System.out.println("invalid choice");
                         showMenu();
