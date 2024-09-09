@@ -16,6 +16,7 @@ public class TicketMapper {
                 dto.contractId(),
                 dto.sellingPrice(),
                 dto.purchasePrice(),
+                dto.traject(),
                 dto.transportType(),
                 dto.status()
         );
@@ -27,6 +28,7 @@ public class TicketMapper {
                 dto.contractId(),
                 dto.sellingPrice(),
                 dto.purchasePrice(),
+                dto.traject(),
                 dto.transportType(),
                 dto.status()
         );

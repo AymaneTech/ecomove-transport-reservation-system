@@ -36,14 +36,13 @@ public class InputScanner {
     }
 
     public static Date scanDate(String prompt) {
-        Scanner scanner = new Scanner(System.in);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         Date date = null;
 
         while (date == null) {
             System.out.print(prompt);
-            String input = scanner.nextLine().trim();
+            String input = SCANNER.nextLine().trim();
 
             if (input.isEmpty()) {
                 return null;
@@ -60,11 +59,10 @@ public class InputScanner {
     }
 
     public static Boolean scanBoolean(String prompt) {
-        Scanner scanner = new Scanner(System.in);
         Boolean result = null;
 
         System.out.print(prompt);
-        String input = scanner.nextLine().trim().toLowerCase();
+        String input = SCANNER.nextLine().trim().toLowerCase();
 
         if (input.isEmpty()) {
             return null;

@@ -34,7 +34,7 @@ public class PartnerServiceImpl implements PartnerService {
     public PartnerResponse findById(PartnerId id) throws PartnerNotFoundException {
         return repository.findById(id.value())
                 .map(mapper::map)
-                .orElseThrow(() -> new  PartnerNotFoundException(id.value()));
+                .orElseThrow(() -> new PartnerNotFoundException(id.value()));
     }
 
     @Override
