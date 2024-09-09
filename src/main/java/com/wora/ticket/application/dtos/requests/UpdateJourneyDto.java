@@ -1,4 +1,6 @@
 package com.wora.ticket.application.dtos.requests;
 
-public record UpdateJourneyDto() {
+import com.wora.ticket.domain.valueObjects.StationId;
+
+public record UpdateJourneyDto(StationId startId, StationId endId, Double distance) {
 }

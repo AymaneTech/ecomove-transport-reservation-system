@@ -1,4 +1,4 @@
 package com.wora.ticket.application.dtos.requests;
 
-public class UpdateStationDto {
+public record UpdateStationDto(String name, String city) {
 }

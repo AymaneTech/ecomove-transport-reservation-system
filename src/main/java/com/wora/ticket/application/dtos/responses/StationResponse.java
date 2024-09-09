@@ -1,4 +1,6 @@
 package com.wora.ticket.application.dtos.responses;
 
-public class StationResponse {
+import com.wora.ticket.domain.valueObjects.StationId;
+
+public record StationResponse(StationId id, String name, String city) {
 }

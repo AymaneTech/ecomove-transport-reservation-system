@@ -1,4 +1,4 @@
 package com.wora.ticket.application.dtos.requests;
 
-public class CreateStation {
+public record CreateStationDto(String name, String city) {
 }
