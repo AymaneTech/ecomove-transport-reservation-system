@@ -23,7 +23,7 @@ public class TicketRepositoryImpl extends BaseRepositoryImpl<Ticket, UUID> imple
     public void create(Ticket ticket) {
         final String query = String.format("""
                 INSERT INTO %s
-                (contract_id, selling_price_amount, selling_price_currency, purchase_price_amount, purchase_price_currency, transport_type, ticket_status, id)
+                (contract_id, selling_price_amount, selling_price_currency, purchase_price_amount, purchase_price_currency, transport_type, ticket_status, journey_start_date::TIMESTAMP, journey_end_date::TIMESTAMP, journey_id, id)
                 VALUES (?, ?, ?, ?, ?, CAST(? AS transport_type), CAST(? AS ticket_status), ?)
                 """, tableName);
         executeUpdatePreparedStatement(query, stmt -> mapper.map(ticket, stmt));
@@ -41,7 +41,10 @@ public class TicketRepositoryImpl extends BaseRepositoryImpl<Ticket, UUID> imple
                 selling_date = ?,
                 transport_type = (CAST ? AS transport_type),
                 ticket_status = (CAST ? AS ticket_status)
-                WHERE id = ?,
+                journey_start_date = ?::TIMESTAMP,
+                journey_end_date = ?::TIMESTAMP,
+                journey_id = ?
+                WHERE id = ?
                 AND deleted_at IS NOT NULL
                 """, tableName);
         executeUpdatePreparedStatement(query, stmt -> mapper.map(ticket, stmt));
