@@ -10,14 +10,14 @@ import com.wora.ticket.application.dtos.requests.CreateTicketDto;
 import com.wora.ticket.application.dtos.requests.UpdateTicketDto;
 import com.wora.ticket.application.dtos.responses.TicketResponse;
 import com.wora.ticket.application.services.TicketService;
-import com.wora.ticket.domain.entities.Station;
 import com.wora.ticket.domain.entities.Journey;
+import com.wora.ticket.domain.entities.Station;
 import com.wora.ticket.domain.enums.TicketStatus;
 import com.wora.ticket.domain.exceptions.TicketNotFoundException;
+import com.wora.ticket.domain.valueObjects.JourneyId;
 import com.wora.ticket.domain.valueObjects.Price;
 import com.wora.ticket.domain.valueObjects.StationId;
 import com.wora.ticket.domain.valueObjects.TicketId;
-import com.wora.ticket.domain.valueObjects.JourneyId;
 
 import java.util.*;
 
