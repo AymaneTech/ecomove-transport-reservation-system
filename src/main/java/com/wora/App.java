@@ -1,9 +1,6 @@
 package com.wora;
 
 
-import com.myLibraries.ModelMapper;
-import com.myLibraries.ModelMapperType;
-import com.myLibraries.impl.ModelMapperFactory;
 import com.wora.contract.application.mappers.ContractMapper;
 import com.wora.contract.application.services.ContractService;
 import com.wora.contract.application.services.impl.ContractServiceImpl;
@@ -18,6 +15,7 @@ import com.wora.discount.domain.repositories.DiscountRepository;
 import com.wora.discount.infrastructure.mappers.DiscountResultSetMapper;
 import com.wora.discount.infrastructure.persistence.DiscountRepositoryImpl;
 import com.wora.discount.infrastructure.presentation.DiscountUi;
+import com.wora.journey.application.mappers.JourneyMapper;
 import com.wora.menu.infrastructure.presentation.MainMenu;
 import com.wora.partner.application.mappers.PartnerMapper;
 import com.wora.partner.application.services.PartnerService;
@@ -26,19 +24,49 @@ import com.wora.partner.domain.repositories.PartnerRepository;
 import com.wora.partner.infrastcutre.mappers.PartnerResultSetMapper;
 import com.wora.partner.infrastcutre.persistence.PartnerRepositoryImpl;
 import com.wora.partner.infrastcutre.presentation.PartnerUi;
+import com.wora.ticket.application.mappers.StationMapper;
 import com.wora.ticket.application.mappers.TicketMapper;
+import com.wora.ticket.application.services.JourneyService;
+import com.wora.ticket.application.services.StationService;
 import com.wora.ticket.application.services.TicketService;
+import com.wora.ticket.application.services.impl.JourneyServiceImpl;
+import com.wora.ticket.infrastructure.presentation.JourneyUi;
+import com.wora.ticket.application.services.impl.StationServiceImpl;
 import com.wora.ticket.application.services.impl.TicketServiceImpl;
+import com.wora.ticket.domain.repositories.JourneyRepository;
+import com.wora.ticket.domain.repositories.StationRepository;
 import com.wora.ticket.domain.repositories.TicketRepository;
+import com.wora.ticket.infrastructure.mappers.JourneyResultSetMapper;
+import com.wora.ticket.infrastructure.mappers.StationResultSetMapper;
 import com.wora.ticket.infrastructure.mappers.TicketResultSetMapper;
+import com.wora.ticket.infrastructure.persistence.JourneyRepositoryImpl;
+import com.wora.ticket.infrastructure.persistence.StationRepositoryImpl;
 import com.wora.ticket.infrastructure.persistence.TicketRepositoryImpl;
+import com.wora.ticket.infrastructure.presentation.StationUi;
 import com.wora.ticket.infrastructure.presentation.TicketUi;
 
 
 public class App {
     public static void main(String[] args) {
-        final MainMenu menu = getMainMenu();
-        menu.showMenu();
+//        final MainMenu menu = getMainMenu();
+//        menu.showMenu();
+        String apiKey = "YOUR_GOOGLE_MAPS_API_KEY";
+        String origin = "Safi, Morocco";
+        String destination = "Marrakech, Morocco";
+
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey(apiKey)
+                .build();
+
+        try {
+            DistanceMatrix matrix = DistanceMatrixApi.getDistanceMatrix(context, new String[]{origin}, new String[]{destination})
+                    .await();
+
+            double distance = matrix.rows[0].elements[0].distance.inMeters;
+            System.out.printf("The distance between %s and %s is %.2f meters.%n", origin, destination, distance);
+        } catch (Exception e) {
+            System.err.println("Error calculating distance: " + e.getMessage());
+        }
     }
 
     private static MainMenu getMainMenu() {
@@ -58,12 +86,23 @@ public class App {
         final TicketService ticketService = new TicketServiceImpl(ticketRepository, contractService, new TicketMapper());
         final TicketUi ticketUi = new TicketUi(ticketService, contractService);
 
+        final StationResultSetMapper stationResultSetMapper = new StationResultSetMapper();
+        final StationRepository stationRepository = new StationRepositoryImpl(stationResultSetMapper);
+        final StationService stationService = new StationServiceImpl(stationRepository, new StationMapper());
+        final StationUi stationUi = new StationUi(stationService);
 
-        final MainMenu menu = new MainMenu(partnerUi, contractUi, discountUi, ticketUi);
+        final JourneyRepository journeyRepository = new JourneyRepositoryImpl(new JourneyResultSetMapper(stationResultSetMapper));
+        final JourneyService journeyService = new JourneyServiceImpl(journeyRepository, stationRepository, new JourneyMapper());
+        final JourneyUi journeyUi = new JourneyUi(journeyService);
+
+
+        final MainMenu menu = new MainMenu(partnerUi, contractUi, discountUi, ticketUi, stationUi, journeyUi);
         partnerUi.setMenu(menu);
         contractUi.setMenu(menu);
         discountUi.setMenu(menu);
         ticketUi.setMenu(menu);
+        stationUi.setMenu(menu);
+        journeyUi.setMenu(menu);
         return menu;
     }
 }

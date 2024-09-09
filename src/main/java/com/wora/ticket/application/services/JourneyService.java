@@ -1,16 +1,13 @@
 package com.wora.ticket.application.services;
 
 import com.wora.ticket.application.dtos.requests.CreateJourneyDto;
-import com.wora.ticket.application.dtos.requests.CreateStationDto;
 import com.wora.ticket.application.dtos.requests.UpdateJourneyDto;
-import com.wora.ticket.application.dtos.requests.UpdateStationDto;
 import com.wora.ticket.application.dtos.responses.JourneyResponse;
 import com.wora.ticket.domain.valueObjects.JourneyId;
-import com.wora.ticket.domain.valueObjects.StationId;
 
 import java.util.List;
 
-public interface JourneyService{
+public interface JourneyService {
     List<JourneyResponse> findAll();
 
     JourneyResponse findById(JourneyId id);
