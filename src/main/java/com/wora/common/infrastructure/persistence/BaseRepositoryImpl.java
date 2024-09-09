@@ -26,9 +26,9 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
         final List<Entity> entities = new ArrayList<>();
         final String query = "SELECT * FROM " + tableName + " WHERE deleted_at IS NULL";
 
-        executeQueryStatement(query, resultSet -> {
-            while (resultSet.next()) {
-                entities.add(mapper.map(resultSet));
+        executeQueryStatement(query, rs -> {
+            while (rs.next()) {
+                entities.add(mapper.map(rs));
             }
         });
         return entities;
@@ -41,9 +41,9 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
 
         executeQueryPreparedStatement(query, stmt -> {
             stmt.setObject(1, id.toString());
-            final ResultSet resultSet = stmt.executeQuery();
-            if (resultSet.next()) {
-                entity.set(Optional.of(mapper.map(resultSet)));
+            final ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                entity.set(Optional.of(mapper.map(rs)));
             }
         });
         return entity.get();
@@ -55,9 +55,9 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
         AtomicReference<Boolean> exists = new AtomicReference<>(false);
         executeQueryPreparedStatement(query, stmt -> {
             stmt.setObject(1, id.toString());
-            final ResultSet resultSet = stmt.executeQuery();
-            if (resultSet.next()) {
-                exists.set(resultSet.getBoolean(1));
+            final ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                exists.set(rs.getBoolean(1));
             }
         });
         return exists.get();

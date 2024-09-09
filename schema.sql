@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS partners (
     special_condition VARCHAR(255),
     transport_type transport_type,
     partner_status partner_status,
-    created_at TIMESTAMP WITHOUT ZONE DEFAULT CURRENT_TIMESTAMP WITHOUT ZONE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
 
     PRIMARY KEY (id)
 );
@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS contracts (
     special_priceAmount Float,
     agreement_condition TEXT,
     renewable BOOL,
-    started_at TIMESTAMP WITHOUT ZONE,
-    ends_at TIMESTAMP WITHOUT ZONE,
+    started_at TIMESTAMP ,
+    ends_at TIMESTAMP ,
     contract_status contract_status,
 
     PRIMARY KEY (id),
@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS discounts (
     description TEXT,
     reduction_value FLOAT,
     conditions TEXT,
-    started_at TIMESTAMP WITHOUT ZONE,
-    ENDS_AT TIMESTAMP WITHOUT ZONE,
+    started_at TIMESTAMP ,
+    ENDS_AT TIMESTAMP ,
     reduction_type reduction_type,
     offer_status offer_status,
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     selling_price_currency VARCHAR(3),
     purchase_price_amount FLOAT,
     purchase_price_currency VARCHAR(3),
-    selling_date TIMESTAMP WITHOUT ZONE,
+    selling_date TIMESTAMP ,
     ticket_status ticket_status,
     transport_type transport_type,
 
@@ -66,4 +66,27 @@ CREATE TABLE IF NOT EXISTS tickets (
     FOREIGN KEY (contract_id) REFERENCES contracts(id)
 );
 
+CREATE TABLE IF NOT EXISTS stations (
+    id UUID,
+    name VARCHAR(60),
+    city VARCHAR(30),
+    created_at TIMESTAMP DEFAULT now(),
+    updated_at TIMESTAMP ,
+    deleted_at TIMESTAMP ,
 
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS journeys(
+    id UUID,
+    departure_station_id UUID,
+    destination_station_id UUID,
+    distance INTEGER,
+    created_at TIMESTAMP DEFAULT now(),
+    updated_at TIMESTAMP ,
+    deleted_at TIMESTAMP ,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (departure_station_id) REFERENCES stations(id),
+    FOREIGN KEY (destination_station_id) REFERENCES stations(id)
+);
