@@ -13,7 +13,6 @@ import com.wora.ticket.domain.repositories.StationRepository;
 import com.wora.ticket.domain.valueObjects.JourneyId;
 
 import java.util.List;
-import java.util.UUID;
 
 public class JourneyServiceImpl implements JourneyService {
     private final JourneyRepository repository;
@@ -43,13 +42,13 @@ public class JourneyServiceImpl implements JourneyService {
 
     @Override
     public void create(CreateJourneyDto dto) {
-        final List<Station> startAndEndStations = findStartAndEndStations(dto.startId().value(), dto.endId().value());
+        final List<Station> startAndEndStations = findStartAndEndStations(dto.startCityName(), dto.endCityName());
         repository.create(mapper.map(dto, startAndEndStations.get(0), startAndEndStations.get(1)));
     }
 
     @Override
     public void update(JourneyId id, UpdateJourneyDto dto) {
-        final List<Station> startAndEndStations = findStartAndEndStations(dto.startId().value(), dto.endId().value());
+        final List<Station> startAndEndStations = findStartAndEndStations(dto.startCityName(), dto.endCityName());
         repository.update(
                 id.value(),
                 mapper.map(id, dto, startAndEndStations.get(0), startAndEndStations.get(1))
@@ -66,12 +65,12 @@ public class JourneyServiceImpl implements JourneyService {
         return repository.existsById(id.value());
     }
 
-    private List<Station> findStartAndEndStations(UUID startId, UUID endId) {
+    private List<Station> findStartAndEndStations(String startCityName, String endCityName) {
         return List.of(
-                stationRepository.findById(startId)
-                        .orElseThrow(() -> new StationNotFoundException(startId)),
-                stationRepository.findById(endId)
-                        .orElseThrow(() -> new StationNotFoundException(endId))
+                stationRepository.findByColumn("city", startCityName)
+                        .orElseThrow(() -> new StationNotFoundException(startCityName)),
+                stationRepository.findByColumn("city", endCityName)
+                        .orElseThrow(() -> new StationNotFoundException(endCityName))
         );
     }
 }

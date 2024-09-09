@@ -47,15 +47,11 @@ public class JourneyUi {
         System.out.println("\t Please enter the required data to create a new journey!");
         clearBuffer();
 
-        final String startStationId = scanString("Please enter the start station ID: ");
-        final String endStationId = scanString("Please enter the end station ID: ");
+        final String startCityName = scanString("Please enter the start city name (Marrakech, morocco): ");
+        final String endCityName = scanString("Please enter the end city name (Marrakech, morocco): ");
         final Double distance = scanDouble("Please enter the distance between the stations: ");
 
-        final CreateJourneyDto journeyDto = new CreateJourneyDto(
-                new StationId(UUID.fromString(startStationId)),
-                new StationId(UUID.fromString(endStationId)),
-                distance
-        );
+        final CreateJourneyDto journeyDto = new CreateJourneyDto(startCityName, endCityName, distance);
 
         journeyService.create(journeyDto);
         System.out.println("Journey created successfully!");

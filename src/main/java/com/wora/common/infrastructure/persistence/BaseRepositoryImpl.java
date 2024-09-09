@@ -78,4 +78,23 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
             }
         });
     }
+
+    @Override
+    public Optional<Entity> findByColumn(String columnName, String value) {
+        AtomicReference<Optional<Entity>> entity = new AtomicReference<>(Optional.empty());
+        final String query = String.format("""
+                SELECT * FROM %s
+                WHERE %s = ?
+                AND deleted_at IS NULL
+                """, tableName, columnName);
+
+        executeQueryPreparedStatement(query, stmt -> {
+            stmt.setString(1, value);
+            final ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                entity.set(Optional.of(mapper.map(rs)));
+            }
+        });
+        return entity.get();
+    }
 }

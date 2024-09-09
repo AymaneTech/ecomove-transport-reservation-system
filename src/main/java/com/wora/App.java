@@ -48,25 +48,8 @@ import com.wora.ticket.infrastructure.presentation.TicketUi;
 
 public class App {
     public static void main(String[] args) {
-//        final MainMenu menu = getMainMenu();
-//        menu.showMenu();
-        String apiKey = "YOUR_GOOGLE_MAPS_API_KEY";
-        String origin = "Safi, Morocco";
-        String destination = "Marrakech, Morocco";
-
-        GeoApiContext context = new GeoApiContext.Builder()
-                .apiKey(apiKey)
-                .build();
-
-        try {
-            DistanceMatrix matrix = DistanceMatrixApi.getDistanceMatrix(context, new String[]{origin}, new String[]{destination})
-                    .await();
-
-            double distance = matrix.rows[0].elements[0].distance.inMeters;
-            System.out.printf("The distance between %s and %s is %.2f meters.%n", origin, destination, distance);
-        } catch (Exception e) {
-            System.err.println("Error calculating distance: " + e.getMessage());
-        }
+        final MainMenu menu = getMainMenu();
+        menu.showMenu();
     }
 
     private static MainMenu getMainMenu() {
