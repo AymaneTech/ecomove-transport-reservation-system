@@ -11,13 +11,13 @@ import com.wora.ticket.application.dtos.requests.UpdateTicketDto;
 import com.wora.ticket.application.dtos.responses.TicketResponse;
 import com.wora.ticket.application.services.TicketService;
 import com.wora.ticket.domain.entities.Station;
-import com.wora.ticket.domain.entities.Traject;
+import com.wora.ticket.domain.entities.Journey;
 import com.wora.ticket.domain.enums.TicketStatus;
 import com.wora.ticket.domain.exceptions.TicketNotFoundException;
 import com.wora.ticket.domain.valueObjects.Price;
 import com.wora.ticket.domain.valueObjects.StationId;
 import com.wora.ticket.domain.valueObjects.TicketId;
-import com.wora.ticket.domain.valueObjects.TrajectId;
+import com.wora.ticket.domain.valueObjects.JourneyId;
 
 import java.util.*;
 
@@ -106,8 +106,8 @@ public class TicketUi {
                 contractId.get(),
                 sellingPrice,
                 purchasePrice,
-                new Traject(
-                        new TrajectId(),
+                new Journey(
+                        new JourneyId(),
                         new Station(new StationId(), "marrakech", "marraekc"),
                         new Station(new StationId(), "marrakech", "safi"),
                         9393.0
@@ -157,8 +157,8 @@ public class TicketUi {
             final String startStation = scanString("Enter the name of city you are in");
             final String endStation = scanString("Enter the name of city you want to go to");
 
-            final Traject traject = new Traject(
-                    new TrajectId(),
+            final Journey journey = new Journey(
+                    new JourneyId(),
                     new Station(new StationId(), "ctm-marrakech", "marrakech"),
                     new Station(new StationId(), "safi-gare-routiere", "safi"),
                     939.0
@@ -168,7 +168,7 @@ public class TicketUi {
                     updatedContractId,
                     sellingPrice,
                     purchasePrice,
-                    traject,
+                    journey,
                     updatedTransportType,
                     updatedStatus
             );

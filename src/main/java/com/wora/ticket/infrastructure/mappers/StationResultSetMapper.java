@@ -27,9 +27,9 @@ public class StationResultSetMapper implements BaseEntityResultSetMapper<Station
     public void map(Station station, PreparedStatement stmt) {
         int count = 1;
         try {
-            stmt.setObject(count++, station.getId().value());
             stmt.setString(count++, station.getName());
             stmt.setString(count++, station.getCity());
+            stmt.setObject(count++, station.getId().value());
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
