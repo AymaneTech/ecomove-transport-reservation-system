@@ -8,7 +8,7 @@ public class Station {
     private StationId id;
     private String name;
     private String city;
-    private List<Traject> trajects;
+    private List<Journey> journeys;
 
     public Station(StationId id, String name, String city) {
         this.id = id;
@@ -43,12 +43,12 @@ public class Station {
         return this;
     }
 
-    public List<Traject> getTrajects() {
-        return trajects;
+    public List<Journey> getTrajects() {
+        return journeys;
     }
 
-    public Station setTrajects(List<Traject> trajects) {
-        this.trajects = trajects;
+    public Station setTrajects(List<Journey> journeys) {
+        this.journeys = journeys;
         return this;
     }
 }

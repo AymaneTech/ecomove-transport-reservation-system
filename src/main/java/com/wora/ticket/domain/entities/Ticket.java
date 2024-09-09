@@ -15,16 +15,16 @@ public class Ticket extends AbstractEntity<TicketId> {
     private Price sellingPrice;
     private Price purchasePrice;
     private Date sellingDate;
-    private Traject traject;
+    private Journey journey;
     private TransportType transportType;
     private TicketStatus status;
 
-    public Ticket(TicketId id, ContractId contractId, Price sellingPrice, Price purchasePrice, Traject traject, TransportType transportType, TicketStatus status) {
+    public Ticket(TicketId id, ContractId contractId, Price sellingPrice, Price purchasePrice, Journey journey, TransportType transportType, TicketStatus status) {
         this.id = id;
         this.contractId = contractId;
         this.sellingPrice = sellingPrice;
         this.purchasePrice = purchasePrice;
-        this.traject = traject;
+        this.journey = journey;
         this.transportType = transportType;
         this.status = status;
     }
@@ -105,12 +105,12 @@ public class Ticket extends AbstractEntity<TicketId> {
         return this;
     }
 
-    public Traject getTraject() {
-        return traject;
+    public Journey getTraject() {
+        return journey;
     }
 
-    public Ticket setTraject(Traject traject) {
-        this.traject = traject;
+    public Ticket setTraject(Journey journey) {
+        this.journey = journey;
         return this;
     }
 }

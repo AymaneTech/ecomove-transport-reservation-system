@@ -1,25 +1,25 @@
 package com.wora.ticket.domain.entities;
 
-import com.wora.ticket.domain.valueObjects.TrajectId;
+import com.wora.ticket.domain.valueObjects.JourneyId;
 
-public class Traject {
-    private TrajectId id;
+public class Journey {
+    private JourneyId id;
     private Station start;
     private Station end;
     private Double distance;
 
-    public Traject(TrajectId id, Station start, Station end, Double distance) {
+    public Journey(JourneyId id, Station start, Station end, Double distance) {
         this.id = id;
         this.start = start;
         this.end = end;
         this.distance = distance;
     }
 
-    public TrajectId getId() {
+    public JourneyId getId() {
         return id;
     }
 
-    public Traject setId(TrajectId id) {
+    public Journey setId(JourneyId id) {
         this.id = id;
         return this;
     }
@@ -28,7 +28,7 @@ public class Traject {
         return start;
     }
 
-    public Traject setStart(Station start) {
+    public Journey setStart(Station start) {
         this.start = start;
         return this;
     }
@@ -37,7 +37,7 @@ public class Traject {
         return end;
     }
 
-    public Traject setEnd(Station end) {
+    public Journey setEnd(Station end) {
         this.end = end;
         return this;
     }
@@ -46,7 +46,7 @@ public class Traject {
         return distance;
     }
 
-    public Traject setDistance(Double distance) {
+    public Journey setDistance(Double distance) {
         this.distance = distance;
         return this;
     }
