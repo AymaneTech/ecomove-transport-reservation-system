@@ -10,6 +10,8 @@ import com.wora.ticket.domain.entities.Journey;
 import com.wora.ticket.domain.entities.Station;
 import com.wora.ticket.domain.valueObjects.JourneyId;
 
+import java.util.UUID;
+
 public class JourneyMapper {
 
     private final StationMapper stationMapper = new StationMapper();
@@ -23,9 +25,9 @@ public class JourneyMapper {
         );
     }
 
-    public Journey map(UpdateJourneyDto dto, Station start, Station end) {
+    public Journey map(JourneyId id, UpdateJourneyDto dto, Station start, Station end) {
         return new Journey(
-                new JourneyId(),
+                id,
                 start,
                 end,
                 dto.distance()

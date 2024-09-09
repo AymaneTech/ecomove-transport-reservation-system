@@ -17,9 +17,9 @@ public class StationMapper {
         );
     }
 
-    public Station map(UpdateStationDto dto, UUID id) {
+    public Station map(UpdateStationDto dto, StationId id) {
         return new Station(
-                new StationId(id),
+                id,
                 dto.name(),
                 dto.city()
         );
