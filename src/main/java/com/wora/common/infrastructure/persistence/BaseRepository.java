@@ -4,6 +4,7 @@ import com.wora.contract.domain.exceptions.ContractNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface BaseRepository<Entity, ID> {
 
@@ -18,4 +19,6 @@ public interface BaseRepository<Entity, ID> {
     void delete(ID id);
 
     Boolean existsById(ID id);
+
+    Optional<Entity> findByColumn(String columnName, String value);
 }
