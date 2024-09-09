@@ -31,6 +31,8 @@ public class TicketResultSetMapper implements BaseEntityResultSetMapper<Ticket> 
                             (Currency) resultSet.getObject("purchase_price_currency")
                     ),
                     resultSet.getDate("selling_date"),
+                    resultSet.getTimestamp("journey_start_date").toLocalDateTime(),
+                    resultSet.getTimestamp("journey_end_date").toLocalDateTime(),
                     (TransportType) resultSet.getObject("transport_type"),
                     (TicketStatus) resultSet.getObject("ticket_status"),
                     resultSet.getDate("created_at"),
@@ -52,6 +54,9 @@ public class TicketResultSetMapper implements BaseEntityResultSetMapper<Ticket> 
             stmt.setObject(count++, ticket.getSellingPrice().currency().getCurrencyCode());
             stmt.setObject(count++, ticket.getPurchasePrice().amount());
             stmt.setObject(count++, ticket.getPurchasePrice().currency().getCurrencyCode());
+            stmt.setObject(count++, ticket.getJourneyStartDate());
+            stmt.setObject(count++, ticket.getJourneyEndDate());
+            stmt.setObject(count++, ticket.getJourney().getId().value());
             stmt.setObject(count++, ticket.getTransportType().toString());
             stmt.setObject(count++, ticket.getStatus().toString());
             stmt.setObject(count++, ticket.getId().value());

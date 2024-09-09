@@ -7,18 +7,16 @@ import com.wora.contract.domain.valueObjects.ContractId;
 import com.wora.menu.infrastructure.presentation.MainMenu;
 import com.wora.partner.domain.enums.TransportType;
 import com.wora.ticket.application.dtos.requests.CreateTicketDto;
+import com.wora.ticket.application.dtos.requests.JourneyDto;
 import com.wora.ticket.application.dtos.requests.UpdateTicketDto;
 import com.wora.ticket.application.dtos.responses.TicketResponse;
 import com.wora.ticket.application.services.TicketService;
-import com.wora.ticket.domain.entities.Journey;
-import com.wora.ticket.domain.entities.Station;
 import com.wora.ticket.domain.enums.TicketStatus;
 import com.wora.ticket.domain.exceptions.TicketNotFoundException;
-import com.wora.ticket.domain.valueObjects.JourneyId;
 import com.wora.ticket.domain.valueObjects.Price;
-import com.wora.ticket.domain.valueObjects.StationId;
 import com.wora.ticket.domain.valueObjects.TicketId;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.wora.common.utils.InputScanner.*;
@@ -102,18 +100,19 @@ public class TicketUi {
         final Integer statusId = scanInt("Please enter the number of the ticket status: ");
         final TicketStatus status = ticketStatuses.get(statusId);
 
+        final String startStationName = scanString("Please enter the name of the start station: ");
+        final String endStationName = scanString("Please enter the name of the end station: ");
+
+        final LocalDateTime startDate = scanLocalDateTime("Please enter the date and time of journey start: ");
+        final LocalDateTime endDate = scanLocalDateTime("Please enter the date and time of journey end: ");
+
+
         final CreateTicketDto ticketDto = new CreateTicketDto(
                 contractId.get(),
-                sellingPrice,
-                purchasePrice,
-                new Journey(
-                        new JourneyId(),
-                        new Station(new StationId(), "marrakech", "marraekc"),
-                        new Station(new StationId(), "marrakech", "safi"),
-                        9393.0
-                ),
-                transportType,
-                status
+                sellingPrice, purchasePrice,
+                new JourneyDto(startStationName, endStationName),
+                startDate, endDate,
+                transportType, status
         );
 
         ticketService.create(ticketDto);
@@ -154,23 +153,18 @@ public class TicketUi {
             final String contractId = scanString("Enter new contract ID (current: " + existingTicket.contract().id().toString() + "): ");
             final ContractId updatedContractId = contractId.isEmpty() ? existingTicket.contract().id() : new ContractId(UUID.fromString(contractId));
 
+            final LocalDateTime startDate = scanLocalDateTime("Please enter the date and time of journey start: ");
+            final LocalDateTime endDate = scanLocalDateTime("Please enter the date and time of journey end: ");
+
             final String startStation = scanString("Enter the name of city you are in");
             final String endStation = scanString("Enter the name of city you want to go to");
 
-            final Journey journey = new Journey(
-                    new JourneyId(),
-                    new Station(new StationId(), "ctm-marrakech", "marrakech"),
-                    new Station(new StationId(), "safi-gare-routiere", "safi"),
-                    939.0
-            );
-
             final UpdateTicketDto ticketDto = new UpdateTicketDto(
                     updatedContractId,
-                    sellingPrice,
-                    purchasePrice,
-                    journey,
-                    updatedTransportType,
-                    updatedStatus
+                    sellingPrice, purchasePrice,
+                    new JourneyDto(startStation, endStation),
+                    startDate, endDate,
+                    updatedTransportType, updatedStatus
             );
 
             ticketService.update(ticketId, ticketDto);

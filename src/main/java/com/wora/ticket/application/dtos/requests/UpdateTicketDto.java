@@ -6,11 +6,15 @@ import com.wora.ticket.domain.entities.Journey;
 import com.wora.ticket.domain.enums.TicketStatus;
 import com.wora.ticket.domain.valueObjects.Price;
 
+import java.time.LocalDateTime;
+
 public record UpdateTicketDto(
         ContractId contractId,
         Price sellingPrice,
         Price purchasePrice,
-        Journey journey,
+        JourneyDto journey,
+        LocalDateTime startDate,
+        LocalDateTime endDate,
         TransportType transportType,
         TicketStatus status
 ) {

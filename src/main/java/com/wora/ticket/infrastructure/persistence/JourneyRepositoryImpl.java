@@ -80,4 +80,30 @@ public class JourneyRepositoryImpl extends BaseRepositoryImpl<Journey, UUID> imp
                 """;
         executeUpdatePreparedStatement(query, stmt -> mapper.map(journey, stmt));
     }
+
+    @Override
+    public Optional<Journey> findByStartAndEndStation(String startStationName, String endStationName) {
+        final AtomicReference<Optional<Journey>> journey = new AtomicReference<>(Optional.empty());
+        final String query = """
+                SELECT j.*, start_station.*, end_station.*
+                FROM journeys j
+                JOIN stations start_station ON j.start_id = start_station.id
+                JOIN stations end_station ON j.end_id = end_station.id
+                WHERE start_station.name = ? AND end_station.name = ?
+                AND j.deleted_at IS NULL
+                AND start_station.deleted_at IS NULL
+                AND end_station.deleted_at IS NULL
+                """;
+
+        executeQueryPreparedStatement(query, stmt -> {
+            stmt.setObject(1, startStationName);
+            stmt.setObject(2, endStationName);
+            final ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                journey.set(Optional.of(mapper.map(rs)));
+            }
+        });
+        return journey.get();
+
+    }
 }

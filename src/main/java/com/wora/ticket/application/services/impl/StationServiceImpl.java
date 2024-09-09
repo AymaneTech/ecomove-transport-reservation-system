@@ -5,11 +5,13 @@ import com.wora.ticket.application.dtos.requests.UpdateStationDto;
 import com.wora.ticket.application.dtos.responses.StationResponse;
 import com.wora.ticket.application.mappers.StationMapper;
 import com.wora.ticket.application.services.StationService;
+import com.wora.ticket.domain.entities.Station;
 import com.wora.ticket.domain.exceptions.StationNotFoundException;
 import com.wora.ticket.domain.repositories.StationRepository;
 import com.wora.ticket.domain.valueObjects.StationId;
 
 import java.util.List;
+import java.util.Optional;
 
 public class StationServiceImpl implements StationService {
     private final StationRepository repository;
@@ -52,5 +54,23 @@ public class StationServiceImpl implements StationService {
     @Override
     public Boolean existsById(StationId id) {
         return repository.existsById(id.value());
+    }
+
+    @Override
+    public Station findByCityName(String cityName) {
+        return repository.findByCityName(cityName)
+                .orElseThrow(() -> new StationNotFoundException(cityName));
+    }
+
+    public Station firstOrCreate(String cityName) {
+        Optional<Station> station = repository.findByCityName(cityName);
+
+        if (station.isEmpty()) {
+            this.create(
+                    new CreateStationDto(cityName, cityName)
+            );
+            return this.findByCityName(cityName);
+        }
+        return station.get();
     }
 }

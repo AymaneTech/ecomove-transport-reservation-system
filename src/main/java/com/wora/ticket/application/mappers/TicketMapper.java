@@ -2,21 +2,25 @@ package com.wora.ticket.application.mappers;
 
 import com.wora.contract.application.dtos.responses.ContractResponse;
 import com.wora.ticket.application.dtos.requests.CreateTicketDto;
+import com.wora.ticket.application.dtos.requests.JourneyDto;
 import com.wora.ticket.application.dtos.requests.UpdateTicketDto;
 import com.wora.ticket.application.dtos.responses.TicketResponse;
+import com.wora.ticket.domain.entities.Journey;
 import com.wora.ticket.domain.entities.Ticket;
 import com.wora.ticket.domain.valueObjects.TicketId;
 
 import java.util.UUID;
 
 public class TicketMapper {
-    public Ticket map(CreateTicketDto dto) {
+    public Ticket map(CreateTicketDto dto, Journey journey) {
         return new Ticket(
                 new TicketId(),
                 dto.contractId(),
                 dto.sellingPrice(),
                 dto.purchasePrice(),
-                dto.journey(),
+                journey,
+                dto.startDate(),
+                dto.endDate(),
                 dto.transportType(),
                 dto.status()
         );
@@ -29,6 +33,8 @@ public class TicketMapper {
                 dto.sellingPrice(),
                 dto.purchasePrice(),
                 dto.journey(),
+                dto.startDate(),
+                dto.endDate(),
                 dto.transportType(),
                 dto.status()
         );
@@ -40,6 +46,8 @@ public class TicketMapper {
                 ticket.getSellingPrice(),
                 ticket.getPurchasePrice(),
                 ticket.getSellingDate(),
+                ticket.getJourneyStartDate(),
+                ticket.getJourneyEndDate(),
                 ticket.getTransportType(),
                 ticket.getStatus(),
                 contractResponse,

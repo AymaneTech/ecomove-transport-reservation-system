@@ -6,6 +6,7 @@ import com.wora.ticket.domain.entities.Station;
 import com.wora.ticket.domain.repositories.StationRepository;
 import com.wora.ticket.infrastructure.mappers.StationResultSetMapper;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.wora.common.utils.QueryExecutor.executeUpdatePreparedStatement;
@@ -36,5 +37,10 @@ public class StationRepositoryImpl extends BaseRepositoryImpl<Station, UUID> imp
                 WHERE id=?
                 """;
         executeUpdatePreparedStatement(query, stmt -> mapper.map(station, stmt));
+    }
+
+    @Override
+    public Optional<Station> findByCityName(String cityName) {
+        return this.findByColumn("city", cityName);
     }
 }

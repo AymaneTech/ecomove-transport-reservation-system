@@ -2,26 +2,26 @@ package com.wora.ticket.application.services.impl;
 
 import com.wora.journey.application.mappers.JourneyMapper;
 import com.wora.ticket.application.dtos.requests.CreateJourneyDto;
+import com.wora.ticket.application.dtos.requests.JourneyDto;
 import com.wora.ticket.application.dtos.requests.UpdateJourneyDto;
 import com.wora.ticket.application.dtos.responses.JourneyResponse;
 import com.wora.ticket.application.services.JourneyService;
-import com.wora.ticket.domain.entities.Station;
+import com.wora.ticket.application.services.StationService;
+import com.wora.ticket.domain.entities.Journey;
 import com.wora.ticket.domain.exceptions.JourneyNotFoundException;
-import com.wora.ticket.domain.exceptions.StationNotFoundException;
 import com.wora.ticket.domain.repositories.JourneyRepository;
-import com.wora.ticket.domain.repositories.StationRepository;
 import com.wora.ticket.domain.valueObjects.JourneyId;
 
 import java.util.List;
 
 public class JourneyServiceImpl implements JourneyService {
     private final JourneyRepository repository;
-    private final StationRepository stationRepository;
+    private final StationService stationService;
     private final JourneyMapper mapper;
 
-    public JourneyServiceImpl(JourneyRepository repository, StationRepository stationRepository, JourneyMapper mapper) {
+    public JourneyServiceImpl(JourneyRepository repository, StationService stationService, JourneyMapper mapper) {
         this.repository = repository;
-        this.stationRepository = stationRepository;
+        this.stationService = stationService;
         this.mapper = mapper;
     }
 
@@ -42,16 +42,23 @@ public class JourneyServiceImpl implements JourneyService {
 
     @Override
     public void create(CreateJourneyDto dto) {
-        final List<Station> startAndEndStations = findStartAndEndStations(dto.startCityName(), dto.endCityName());
-        repository.create(mapper.map(dto, startAndEndStations.get(0), startAndEndStations.get(1)));
+        repository.create(mapper.map(
+                dto,
+                stationService.firstOrCreate(dto.startCityName()),
+                stationService.firstOrCreate(dto.endCityName()))
+        );
     }
 
     @Override
     public void update(JourneyId id, UpdateJourneyDto dto) {
-        final List<Station> startAndEndStations = findStartAndEndStations(dto.startCityName(), dto.endCityName());
         repository.update(
                 id.value(),
-                mapper.map(id, dto, startAndEndStations.get(0), startAndEndStations.get(1))
+                mapper.map(
+                        id,
+                        dto,
+                        stationService.findByCityName(dto.startCityName()),
+                        stationService.findByCityName(dto.endCityName())
+                )
         );
     }
 
@@ -65,12 +72,9 @@ public class JourneyServiceImpl implements JourneyService {
         return repository.existsById(id.value());
     }
 
-    private List<Station> findStartAndEndStations(String startCityName, String endCityName) {
-        return List.of(
-                stationRepository.findByColumn("city", startCityName)
-                        .orElseThrow(() -> new StationNotFoundException(startCityName)),
-                stationRepository.findByColumn("city", endCityName)
-                        .orElseThrow(() -> new StationNotFoundException(endCityName))
-        );
+    @Override
+    public Journey findByStartAndEndStation(JourneyDto dto) {
+        return repository.findByStartAndEndStation(dto.startStatioName(), dto.endStatioName())
+                .orElseThrow(() -> new JourneyNotFoundException(dto.startStatioName(), dto.endStatioName()));
     }
 }

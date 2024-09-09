@@ -7,6 +7,7 @@ import com.wora.ticket.domain.enums.TicketStatus;
 import com.wora.ticket.domain.valueObjects.Price;
 import com.wora.ticket.domain.valueObjects.TicketId;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Ticket extends AbstractEntity<TicketId> {
@@ -16,26 +17,32 @@ public class Ticket extends AbstractEntity<TicketId> {
     private Price purchasePrice;
     private Date sellingDate;
     private Journey journey;
+    private LocalDateTime journeyStartDate;
+    private LocalDateTime journeyEndDate;
     private TransportType transportType;
     private TicketStatus status;
 
-    public Ticket(TicketId id, ContractId contractId, Price sellingPrice, Price purchasePrice, Journey journey, TransportType transportType, TicketStatus status) {
+    public Ticket(TicketId id, ContractId contractId, Price sellingPrice, Price purchasePrice, Journey journey, LocalDateTime journeyStartDate, LocalDateTime journeyEndDate, TransportType transportType, TicketStatus status) {
         this.id = id;
         this.contractId = contractId;
         this.sellingPrice = sellingPrice;
         this.purchasePrice = purchasePrice;
         this.journey = journey;
+        this.journeyStartDate = journeyStartDate;
+        this.journeyEndDate = journeyEndDate;
         this.transportType = transportType;
         this.status = status;
     }
 
-    public Ticket(TicketId id, ContractId contractId, Price sellingPrice, Price purchasePrice, Date sellingDate, TransportType transportType, TicketStatus status,
+    public Ticket(TicketId id, ContractId contractId, Price sellingPrice, Price purchasePrice, Date sellingDate, LocalDateTime journeyStartDate, LocalDateTime journeyEndDate, TransportType transportType, TicketStatus status,
                   Date createdAt, Date updatedAt, Date deletedAt) {
         this.id = id;
         this.contractId = contractId;
         this.sellingPrice = sellingPrice;
         this.purchasePrice = purchasePrice;
         this.sellingDate = sellingDate;
+        this.journeyStartDate = journeyStartDate;
+        this.journeyEndDate = journeyEndDate;
         this.transportType = transportType;
         this.status = status;
         this.updatedAt = updatedAt;
@@ -105,11 +112,29 @@ public class Ticket extends AbstractEntity<TicketId> {
         return this;
     }
 
-    public Journey getTraject() {
+    public LocalDateTime getJourneyEndDate() {
+        return journeyEndDate;
+    }
+
+    public Ticket setJourneyEndDate(LocalDateTime journeyEndDate) {
+        this.journeyEndDate = journeyEndDate;
+        return this;
+    }
+
+    public LocalDateTime getJourneyStartDate() {
+        return journeyStartDate;
+    }
+
+    public Ticket setJourneyStartDate(LocalDateTime journeyStartDate) {
+        this.journeyStartDate = journeyStartDate;
+        return this;
+    }
+
+    public Journey getJourney() {
         return journey;
     }
 
-    public Ticket setTraject(Journey journey) {
+    public Ticket setJourney(Journey journey) {
         this.journey = journey;
         return this;
     }

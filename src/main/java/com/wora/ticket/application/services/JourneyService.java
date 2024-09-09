@@ -1,8 +1,10 @@
 package com.wora.ticket.application.services;
 
 import com.wora.ticket.application.dtos.requests.CreateJourneyDto;
+import com.wora.ticket.application.dtos.requests.JourneyDto;
 import com.wora.ticket.application.dtos.requests.UpdateJourneyDto;
 import com.wora.ticket.application.dtos.responses.JourneyResponse;
+import com.wora.ticket.domain.entities.Journey;
 import com.wora.ticket.domain.valueObjects.JourneyId;
 
 import java.util.List;
@@ -19,4 +21,6 @@ public interface JourneyService {
     void delete(JourneyId id);
 
     Boolean existsById(JourneyId id);
+
+    Journey findByStartAndEndStation(JourneyDto dto);
 }

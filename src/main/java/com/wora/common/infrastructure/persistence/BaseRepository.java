@@ -4,7 +4,6 @@ import com.wora.contract.domain.exceptions.ContractNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface BaseRepository<Entity, ID> {
 
