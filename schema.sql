@@ -54,16 +54,20 @@ CREATE TABLE IF NOT EXISTS discounts (
 CREATE TABLE IF NOT EXISTS tickets (
     id UUID,
     contract_id UUID,
+    journey_id UUID,
     selling_price_amount FLOAT,
     selling_price_currency VARCHAR(3),
     purchase_price_amount FLOAT,
     purchase_price_currency VARCHAR(3),
     selling_date TIMESTAMP ,
+    journey_start_date TIMESTAMP,
+    journey_end_date TIMESTAMP,
     ticket_status ticket_status,
     transport_type transport_type,
 
     PRIMARY KEY (id),
-    FOREIGN KEY (contract_id) REFERENCES contracts(id)
+    FOREIGN KEY (contract_id) REFERENCES contracts(id),
+    FOREIGN KEY (journey_id) REFERENCES journeys(id)
 );
 
 CREATE TABLE IF NOT EXISTS stations (
@@ -79,14 +83,14 @@ CREATE TABLE IF NOT EXISTS stations (
 
 CREATE TABLE IF NOT EXISTS journeys(
     id UUID,
-    departure_station_id UUID,
-    destination_station_id UUID,
+    start_id UUID,
+    end_id UUID,
     distance INTEGER,
     created_at TIMESTAMP DEFAULT now(),
     updated_at TIMESTAMP ,
     deleted_at TIMESTAMP ,
 
     PRIMARY KEY (id),
-    FOREIGN KEY (departure_station_id) REFERENCES stations(id),
-    FOREIGN KEY (destination_station_id) REFERENCES stations(id)
+    FOREIGN KEY (start_id) REFERENCES stations(id),
+    FOREIGN KEY (end_id) REFERENCES stations(id)
 );

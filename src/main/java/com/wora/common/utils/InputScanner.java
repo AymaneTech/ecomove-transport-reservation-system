@@ -4,6 +4,8 @@ import com.wora.ticket.domain.valueObjects.Price;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Scanner;
@@ -84,5 +86,11 @@ public class InputScanner {
         final String currencyCode = scanString("Enter currency code: ");
         final Currency currency = Currency.getInstance(currencyCode);
         return new Price(amount, currency);
+    }
+
+    public static LocalDateTime scanLocalDateTime(String prompt) {
+        String input = scanString(prompt + "1986-04-08 12:30");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(input, formatter);
     }
 }
