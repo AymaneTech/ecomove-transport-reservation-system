@@ -1,10 +1,10 @@
 package com.wora.ticket.application.services.impl;
 
-import com.wora.journey.application.mappers.JourneyMapper;
 import com.wora.ticket.application.dtos.requests.CreateJourneyDto;
 import com.wora.ticket.application.dtos.requests.JourneyDto;
 import com.wora.ticket.application.dtos.requests.UpdateJourneyDto;
 import com.wora.ticket.application.dtos.responses.JourneyResponse;
+import com.wora.ticket.application.mappers.JourneyMapper;
 import com.wora.ticket.application.services.JourneyService;
 import com.wora.ticket.application.services.StationService;
 import com.wora.ticket.domain.entities.Journey;

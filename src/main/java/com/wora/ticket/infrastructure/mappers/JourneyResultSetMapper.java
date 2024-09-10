@@ -17,29 +17,21 @@ public class JourneyResultSetMapper implements BaseEntityResultSetMapper<Journey
     }
 
     @Override
-    public Journey map(ResultSet resultSet) {
-        try {
-            return new Journey(
-                    new JourneyId((UUID) resultSet.getObject("id")),
-                    stationMapper.map(resultSet),
-                    stationMapper.map(resultSet),
-                    resultSet.getDouble("distance")
-            );
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Journey map(ResultSet resultSet) throws SQLException {
+        return new Journey(
+                new JourneyId((UUID) resultSet.getObject("id")),
+                stationMapper.map(resultSet),
+                stationMapper.map(resultSet),
+                resultSet.getDouble("distance")
+        );
     }
 
     @Override
-    public void map(Journey journey, PreparedStatement stmt) {
+    public void map(Journey journey, PreparedStatement stmt) throws SQLException {
         int count = 1;
-        try {
-            stmt.setObject(count++, journey.getStart().getId().value());
-            stmt.setObject(count++, journey.getEnd().getId().value());
-            stmt.setDouble(count++, journey.getDistance());
-            stmt.setObject(count++, journey.getId().value());
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        stmt.setObject(count++, journey.getStart().getId().value());
+        stmt.setObject(count++, journey.getEnd().getId().value());
+        stmt.setDouble(count++, journey.getDistance());
+        stmt.setObject(count++, journey.getId().value());
     }
 }

@@ -15,40 +15,32 @@ import java.util.UUID;
 
 public class ContractResultSetMapper implements BaseEntityResultSetMapper<Contract> {
 
-    public Contract map(final ResultSet resultSet) {
-        try {
-            return new Contract(
-                    new ContractId((UUID) resultSet.getObject("id")),
-                    resultSet.getString("special_price"),
-                    resultSet.getString("agreement_condition"),
-                    resultSet.getBoolean("renewable"),
-                    resultSet.getDate("started_at"),
-                    resultSet.getDate("ends_at"),
-                    ContractStatus.valueOf(resultSet.getString("status")),
-                    new PartnerId((UUID) resultSet.getObject("partner_id")),
-                    getDate("created_at", resultSet),
-                    getDate("updated_at", resultSet),
-                   getDate("deleted_at", resultSet)
-            );
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Contract map(final ResultSet resultSet) throws SQLException {
+        return new Contract(
+                new ContractId((UUID) resultSet.getObject("id")),
+                resultSet.getString("special_price"),
+                resultSet.getString("agreement_condition"),
+                resultSet.getBoolean("renewable"),
+                resultSet.getDate("started_at"),
+                resultSet.getDate("ends_at"),
+                ContractStatus.valueOf(resultSet.getString("status")),
+                new PartnerId((UUID) resultSet.getObject("partner_id")),
+                getDate("created_at", resultSet),
+                getDate("updated_at", resultSet),
+                getDate("deleted_at", resultSet)
+        );
     }
 
-    public void map(final Contract contract, final PreparedStatement stmt) {
+    public void map(final Contract contract, final PreparedStatement stmt) throws SQLException {
         int count = 1;
-        try {
-            stmt.setString(count++, contract.getSpecialPrice());
-            stmt.setString(count++, contract.getAgreementCondition());
-            stmt.setBoolean(count++, contract.getRenewable());
-            stmt.setTimestamp(count++, new Timestamp(contract.getStartedAt().getTime()));
-            stmt.setTimestamp(count++, new Timestamp(contract.getEndsAt().getTime()));
-            stmt.setString(count++, contract.getStatus().toString());
-            stmt.setObject(count++, contract.getPartnerId().value());
-            stmt.setObject(count++, contract.getId().value());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        stmt.setString(count++, contract.getSpecialPrice());
+        stmt.setString(count++, contract.getAgreementCondition());
+        stmt.setBoolean(count++, contract.getRenewable());
+        stmt.setTimestamp(count++, new Timestamp(contract.getStartedAt().getTime()));
+        stmt.setTimestamp(count++, new Timestamp(contract.getEndsAt().getTime()));
+        stmt.setString(count++, contract.getStatus().toString());
+        stmt.setObject(count++, contract.getPartnerId().value());
+        stmt.setObject(count++, contract.getId().value());
     }
 
     private Date getDate(final String columnName, final ResultSet resultSet) throws SQLException {

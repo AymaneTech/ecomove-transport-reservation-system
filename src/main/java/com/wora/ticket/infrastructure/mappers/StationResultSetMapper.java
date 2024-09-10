@@ -11,27 +11,19 @@ import java.util.UUID;
 
 public class StationResultSetMapper implements BaseEntityResultSetMapper<Station> {
     @Override
-    public Station map(ResultSet resultSet) {
-        try {
-            return new Station(
-                    new StationId((UUID) resultSet.getObject("id")),
-                    resultSet.getString("name"),
-                    resultSet.getString("city")
-            );
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Station map(ResultSet resultSet) throws SQLException {
+        return new Station(
+                new StationId((UUID) resultSet.getObject("id")),
+                resultSet.getString("name"),
+                resultSet.getString("city")
+        );
     }
 
     @Override
-    public void map(Station station, PreparedStatement stmt) {
+    public void map(Station station, PreparedStatement stmt) throws SQLException {
         int count = 1;
-        try {
-            stmt.setString(count++, station.getName());
-            stmt.setString(count++, station.getCity());
-            stmt.setObject(count++, station.getId().value());
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        stmt.setString(count++, station.getName());
+        stmt.setString(count++, station.getCity());
+        stmt.setObject(count++, station.getId().value());
     }
 }

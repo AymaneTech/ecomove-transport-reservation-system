@@ -6,8 +6,11 @@ import com.wora.ticket.domain.enums.TicketStatus;
 import com.wora.ticket.domain.repositories.TicketRepository;
 import com.wora.ticket.infrastructure.mappers.TicketResultSetMapper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import static com.wora.common.utils.QueryExecutor.executeQueryStatement;
 import static com.wora.common.utils.QueryExecutor.executeUpdatePreparedStatement;
 
 public class TicketRepositoryImpl extends BaseRepositoryImpl<Ticket, UUID> implements TicketRepository {
@@ -17,6 +20,19 @@ public class TicketRepositoryImpl extends BaseRepositoryImpl<Ticket, UUID> imple
     public TicketRepositoryImpl(TicketResultSetMapper mapper) {
         super("tickets", mapper);
         this.mapper = mapper;
+    }
+
+    @Override
+    public List<Ticket> findAll() {
+        final List<Ticket> tickets = new ArrayList<>();
+        final String query = "SELECT t.* FROM tickets t JOIN journeys j ON t.journey_id = j.id WHERE t.deleted_at IS NULL";
+
+        executeQueryStatement(query, rs -> {
+            while (rs.next()) {
+                tickets.add(mapper.map(rs));
+            }
+        });
+        return tickets;
     }
 
     @Override
