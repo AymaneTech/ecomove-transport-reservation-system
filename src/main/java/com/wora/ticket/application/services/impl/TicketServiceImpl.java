@@ -33,11 +33,7 @@ public class TicketServiceImpl implements TicketService {
     public List<TicketResponse> findAll() {
         return repository.findAll()
                 .stream()
-                .map(ticket -> mapper.map(
-                        ticket,
-                        contractService.findById(ticket.getContractId()
-                        ))
-                )
+                .map(ticket -> mapper.map(ticket, contractService.findById(ticket.getContractId())))
                 .toList();
     }
 
