@@ -55,7 +55,8 @@ public class MainMenu {
                 }
             }
         } catch (Exception e) {
-            System.out.println("you enter a invalid choice");
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             clearBuffer();
             showMenu();
         }

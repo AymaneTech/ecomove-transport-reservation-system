@@ -84,7 +84,7 @@ public class InputScanner {
         final Float amount = scanFloat(prompt);
         clearBuffer();
         final String currencyCode = scanString("Enter currency code: ");
-        final Currency currency = Currency.getInstance(currencyCode);
+        final Currency currency = Currency.getInstance(currencyCode.toUpperCase());
         return new Price(amount, currency);
     }
 

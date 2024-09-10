@@ -12,6 +12,12 @@ import com.wora.ticket.domain.valueObjects.TicketId;
 import java.util.UUID;
 
 public class TicketMapper {
+    private final JourneyMapper journeyMapper;
+
+    public TicketMapper(JourneyMapper journeyMapper) {
+        this.journeyMapper = journeyMapper;
+    }
+
     public Ticket map(CreateTicketDto dto, Journey journey) {
         return new Ticket(
                 new TicketId(),
@@ -51,6 +57,7 @@ public class TicketMapper {
                 ticket.getTransportType(),
                 ticket.getStatus(),
                 contractResponse,
+                journeyMapper.map(ticket.getJourney()),
                 ticket.getCreatedAt(),
                 ticket.getUpdatedAt()
         );

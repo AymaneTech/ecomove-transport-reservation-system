@@ -13,6 +13,7 @@ import com.wora.ticket.domain.repositories.JourneyRepository;
 import com.wora.ticket.domain.valueObjects.JourneyId;
 
 import java.util.List;
+import java.util.Optional;
 
 public class JourneyServiceImpl implements JourneyService {
     private final JourneyRepository repository;
@@ -74,7 +75,17 @@ public class JourneyServiceImpl implements JourneyService {
 
     @Override
     public Journey findByStartAndEndStation(JourneyDto dto) {
-        return repository.findByStartAndEndStation(dto.startStatioName(), dto.endStatioName())
-                .orElseThrow(() -> new JourneyNotFoundException(dto.startStatioName(), dto.endStatioName()));
+        Optional<Journey> journal = repository.findByStartAndEndStation(dto.startStatioName(), dto.endStatioName())
+                .or(() -> {
+                    final Journey journey = new Journey(
+                            new JourneyId(),
+                            stationService.firstOrCreate(dto.startStatioName()),
+                            stationService.firstOrCreate(dto.endStatioName()),
+                           0.0
+                    );
+                    this.repository.create(journey);
+                    return Optional.of(journey);
+                });
+        return journal.get();
     }
 }
