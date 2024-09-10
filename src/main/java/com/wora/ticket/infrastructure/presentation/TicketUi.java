@@ -100,6 +100,7 @@ public class TicketUi {
         final Integer statusId = scanInt("Please enter the number of the ticket status: ");
         final TicketStatus status = ticketStatuses.get(statusId);
 
+        clearBuffer();
         final String startStationName = scanString("Please enter the name of the start station: ");
         final String endStationName = scanString("Please enter the name of the end station: ");
 

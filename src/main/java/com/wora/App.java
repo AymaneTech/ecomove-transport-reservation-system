@@ -72,11 +72,12 @@ public class App {
 
         final JourneyResultSetMapper journeyResultSetMapper = new JourneyResultSetMapper(stationResultSetMapper);
         final JourneyRepository journeyRepository = new JourneyRepositoryImpl(journeyResultSetMapper);
-        final JourneyService journeyService = new JourneyServiceImpl(journeyRepository, stationService, new JourneyMapper());
+        JourneyMapper journeyMapper = new JourneyMapper();
+        final JourneyService journeyService = new JourneyServiceImpl(journeyRepository, stationService, journeyMapper);
         final JourneyUi journeyUi = new JourneyUi(journeyService);
 
         final TicketRepository ticketRepository = new TicketRepositoryImpl(new TicketResultSetMapper(journeyResultSetMapper));
-        final TicketService ticketService = new TicketServiceImpl(ticketRepository, journeyService, contractService, new TicketMapper());
+        final TicketService ticketService = new TicketServiceImpl(ticketRepository, journeyService, contractService, new TicketMapper(journeyMapper));
         final TicketUi ticketUi = new TicketUi(ticketService, contractService);
 
 
