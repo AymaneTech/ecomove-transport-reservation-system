@@ -72,7 +72,7 @@ public class App {
 
         final JourneyResultSetMapper journeyResultSetMapper = new JourneyResultSetMapper(stationResultSetMapper);
         final JourneyRepository journeyRepository = new JourneyRepositoryImpl(journeyResultSetMapper);
-        JourneyMapper journeyMapper = new JourneyMapper();
+        final JourneyMapper journeyMapper = new JourneyMapper();
         final JourneyService journeyService = new JourneyServiceImpl(journeyRepository, stationService, journeyMapper);
         final JourneyUi journeyUi = new JourneyUi(journeyService);
 
