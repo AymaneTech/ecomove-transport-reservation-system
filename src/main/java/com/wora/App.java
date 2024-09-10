@@ -15,7 +15,6 @@ import com.wora.discount.domain.repositories.DiscountRepository;
 import com.wora.discount.infrastructure.mappers.DiscountResultSetMapper;
 import com.wora.discount.infrastructure.persistence.DiscountRepositoryImpl;
 import com.wora.discount.infrastructure.presentation.DiscountUi;
-import com.wora.journey.application.mappers.JourneyMapper;
 import com.wora.menu.infrastructure.presentation.MainMenu;
 import com.wora.partner.application.mappers.PartnerMapper;
 import com.wora.partner.application.services.PartnerService;
@@ -24,6 +23,7 @@ import com.wora.partner.domain.repositories.PartnerRepository;
 import com.wora.partner.infrastcutre.mappers.PartnerResultSetMapper;
 import com.wora.partner.infrastcutre.persistence.PartnerRepositoryImpl;
 import com.wora.partner.infrastcutre.presentation.PartnerUi;
+import com.wora.ticket.application.mappers.JourneyMapper;
 import com.wora.ticket.application.mappers.StationMapper;
 import com.wora.ticket.application.mappers.TicketMapper;
 import com.wora.ticket.application.services.JourneyService;
@@ -70,11 +70,12 @@ public class App {
         final StationService stationService = new StationServiceImpl(stationRepository, new StationMapper());
         final StationUi stationUi = new StationUi(stationService);
 
-        final JourneyRepository journeyRepository = new JourneyRepositoryImpl(new JourneyResultSetMapper(stationResultSetMapper));
+        final JourneyResultSetMapper journeyResultSetMapper = new JourneyResultSetMapper(stationResultSetMapper);
+        final JourneyRepository journeyRepository = new JourneyRepositoryImpl(journeyResultSetMapper);
         final JourneyService journeyService = new JourneyServiceImpl(journeyRepository, stationService, new JourneyMapper());
         final JourneyUi journeyUi = new JourneyUi(journeyService);
 
-        final TicketRepository ticketRepository = new TicketRepositoryImpl(new TicketResultSetMapper());
+        final TicketRepository ticketRepository = new TicketRepositoryImpl(new TicketResultSetMapper(journeyResultSetMapper));
         final TicketService ticketService = new TicketServiceImpl(ticketRepository, journeyService, contractService, new TicketMapper());
         final TicketUi ticketUi = new TicketUi(ticketService, contractService);
 

@@ -1,4 +1,4 @@
-package com.wora.journey.application.mappers;
+package com.wora.ticket.application.mappers;
 
 
 import com.wora.ticket.application.dtos.requests.CreateJourneyDto;

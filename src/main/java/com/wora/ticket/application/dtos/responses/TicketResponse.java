@@ -19,6 +19,7 @@ public record TicketResponse(
         TransportType transportType,
         TicketStatus status,
         ContractResponse contract,
+        JourneyResponse journey,
         Date createdAt,
         Date updatedAt
 ) {

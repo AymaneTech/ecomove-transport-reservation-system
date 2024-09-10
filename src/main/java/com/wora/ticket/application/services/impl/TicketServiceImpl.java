@@ -11,7 +11,6 @@ import com.wora.ticket.domain.entities.Journey;
 import com.wora.ticket.domain.entities.Ticket;
 import com.wora.ticket.domain.enums.TicketStatus;
 import com.wora.ticket.domain.exceptions.TicketNotFoundException;
-import com.wora.ticket.domain.repositories.JourneyRepository;
 import com.wora.ticket.domain.repositories.TicketRepository;
 import com.wora.ticket.domain.valueObjects.TicketId;
 
@@ -25,7 +24,7 @@ public class TicketServiceImpl implements TicketService {
 
     public TicketServiceImpl(TicketRepository repository, JourneyService journeyService, ContractService contractService, TicketMapper mapper) {
         this.repository = repository;
-        this.journeyService= journeyService;
+        this.journeyService = journeyService;
         this.contractService = contractService;
         this.mapper = mapper;
     }
@@ -34,7 +33,11 @@ public class TicketServiceImpl implements TicketService {
     public List<TicketResponse> findAll() {
         return repository.findAll()
                 .stream()
-                .map(ticket -> mapper.map(ticket, contractService.findById(ticket.getContractId())))
+                .map(ticket -> mapper.map(
+                        ticket,
+                        contractService.findById(ticket.getContractId()
+                        ))
+                )
                 .toList();
     }
 
@@ -54,7 +57,8 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void update(TicketId id, UpdateTicketDto dto) {
-        final Ticket ticket = mapper.map(dto, id.value());
+        final Journey journey = journeyService.findByStartAndEndStation(dto.journey());
+        final Ticket ticket = mapper.map(dto, id.value(), journey);
         repository.update(id.value(), ticket);
     }
 

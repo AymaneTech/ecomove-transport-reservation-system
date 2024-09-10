@@ -26,13 +26,13 @@ public class TicketMapper {
         );
     }
 
-    public Ticket map(UpdateTicketDto dto, UUID id) {
+    public Ticket map(UpdateTicketDto dto, UUID id, Journey journey) {
         return new Ticket(
                 new TicketId(id),
                 dto.contractId(),
                 dto.sellingPrice(),
                 dto.purchasePrice(),
-                dto.journey(),
+                journey,
                 dto.startDate(),
                 dto.endDate(),
                 dto.transportType(),
