@@ -3,7 +3,7 @@ package com.wora.authentication.application.services.impl;
 import com.wora.authentication.application.dtos.requests.LoginClientDto;
 import com.wora.authentication.application.dtos.requests.RegisterClientDto;
 import com.wora.authentication.application.services.AuthenticationService;
-import com.wora.authentication.domain.AuthenticatedUser;
+import com.wora.authentication.application.services.SessionManager;
 import com.wora.client.application.dtos.requests.CreateClientDto;
 import com.wora.client.application.dtos.responses.ClientResponse;
 import com.wora.client.application.mappers.ClientMapper;
@@ -40,7 +40,7 @@ public class authenticationServiceImpl implements AuthenticationService {
 
     private ClientResponse authenticate(String email) {
         Optional<Client> client = service.findByEmail(email);
-        client.ifPresent(AuthenticatedUser::authenticate);
+        client.ifPresent(SessionManager::authenticate);
         return client
                 .map(mapper::map)
                 .orElseThrow(() -> new ClientNotFoundException(email));
