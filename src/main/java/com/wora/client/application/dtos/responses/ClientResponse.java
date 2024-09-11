@@ -1,4 +1,6 @@
-package com.wora.client.dtos.responses;
+package com.wora.client.application.dtos.responses;
 
-public record ClientResponse() {
+import com.wora.client.domain.valueObjects.Name;
+
+public record ClientResponse(Name name, String email, String phone) {
 }

@@ -1,4 +1,5 @@
-package com.wora.client.dtos.requests;
+package com.wora.client.application.dtos.requests;
 
-public record UpdateClientDto() {
-}
+import com.wora.client.domain.valueObjects.Name;
+
+public record UpdateClientDto(Name name, String email, String phone) {}

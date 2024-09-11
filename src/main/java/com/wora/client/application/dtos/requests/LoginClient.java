@@ -1,4 +1,4 @@
-package com.wora.client.dtos.requests;
+package com.wora.client.application.dtos.requests;
 
-public record LoginClient() {
+public record LoginClient(String email) {
 }
