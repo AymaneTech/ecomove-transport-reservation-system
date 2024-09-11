@@ -5,12 +5,13 @@ import com.wora.client.application.dtos.requests.UpdateClientDto;
 import com.wora.client.application.dtos.responses.ClientResponse;
 import com.wora.client.application.mappers.ClientMapper;
 import com.wora.client.application.services.ClientService;
+import com.wora.client.domain.entities.Client;
 import com.wora.client.domain.exceptions.ClientNotFoundException;
 import com.wora.client.domain.repositories.ClientRepository;
 import com.wora.client.domain.valueObjects.ClientId;
 
-import java.lang.management.ManagementPermission;
 import java.util.List;
+import java.util.Optional;
 
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
@@ -34,6 +35,11 @@ public class ClientServiceImpl implements ClientService {
         return repository.findById(id.value())
                 .map(mapper::map)
                 .orElseThrow(() -> new ClientNotFoundException(id.value()));
+    }
+
+    @Override
+    public Optional<Client> findByEmail(String email) {
+        return repository.findByColumn("email", email);
     }
 
     @Override
