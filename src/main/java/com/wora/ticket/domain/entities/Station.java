@@ -1,10 +1,11 @@
 package com.wora.ticket.domain.entities;
 
+import com.wora.common.domain.AbstractEntity;
 import com.wora.ticket.domain.valueObjects.StationId;
 
 import java.util.List;
 
-public class Station {
+public class Station extends AbstractEntity<StationId> {
     private StationId id;
     private String name;
     private String city;

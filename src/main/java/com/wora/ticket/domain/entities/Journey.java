@@ -1,8 +1,9 @@
 package com.wora.ticket.domain.entities;
 
+import com.wora.common.domain.AbstractEntity;
 import com.wora.ticket.domain.valueObjects.JourneyId;
 
-public class Journey {
+public class Journey extends AbstractEntity<JourneyId> {
     private JourneyId id;
     private Station start;
     private Station end;

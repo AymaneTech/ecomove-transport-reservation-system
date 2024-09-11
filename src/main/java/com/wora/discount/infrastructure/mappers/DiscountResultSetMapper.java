@@ -16,23 +16,23 @@ import java.util.UUID;
 
 public class DiscountResultSetMapper implements BaseEntityResultSetMapper<Discount> {
     @Override
-    public Discount map(ResultSet resultSet) throws SQLException {
+    public Discount map(ResultSet rs) throws SQLException {
         return new Discount(
-                new DiscountId((UUID) resultSet.getObject("id")),
-                new ContractId((UUID) resultSet.getObject("contract_id")),
-                resultSet.getString("name"),
-                resultSet.getString("description"),
-                resultSet.getString("conditions"),
+                new DiscountId((UUID) rs.getObject("id")),
+                new ContractId((UUID) rs.getObject("contract_id")),
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getString("conditions"),
                 new Reduction(
-                        resultSet.getFloat("reduction_value"),
-                        ReductionType.valueOf(resultSet.getString("reduction_type"))
+                        rs.getFloat("reduction_value"),
+                        ReductionType.valueOf(rs.getString("reduction_type"))
                 ),
-                resultSet.getDate("started_at"),
-                resultSet.getDate("ends_at"),
-                DiscountStatus.valueOf(resultSet.getString("status")),
-                resultSet.getDate("created_at"),
-                resultSet.getDate("updated_at"),
-                resultSet.getDate("deleted_at")
+                rs.getDate("started_at"),
+                rs.getDate("ends_at"),
+                DiscountStatus.valueOf(rs.getString("status")),
+                rs.getTimestamp("created_at").toLocalDateTime(),
+                rs.getTimestamp("updated_at").toLocalDateTime(),
+                rs.getTimestamp("deleted_at").toLocalDateTime()
         );
     }
 

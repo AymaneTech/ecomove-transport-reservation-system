@@ -22,27 +22,27 @@ public class TicketResultSetMapper implements BaseEntityResultSetMapper<Ticket> 
     }
 
     @Override
-    public Ticket map(ResultSet resultSet) throws SQLException {
+    public Ticket map(ResultSet rs) throws SQLException {
         return new Ticket(
-                new TicketId((UUID) resultSet.getObject("id")),
-                new ContractId((UUID) resultSet.getObject("contract_id")),
+                new TicketId((UUID) rs.getObject("id")),
+                new ContractId((UUID) rs.getObject("contract_id")),
                 new Price(
-                        resultSet.getFloat("selling_price_amount"),
-                        (Currency) resultSet.getObject("selling_price_currency")
+                        rs.getFloat("selling_price_amount"),
+                        (Currency) rs.getObject("selling_price_currency")
                 ),
                 new Price(
-                        resultSet.getFloat("purchase_price_amount"),
-                        (Currency) resultSet.getObject("purchase_price_currency")
+                        rs.getFloat("purchase_price_amount"),
+                        (Currency) rs.getObject("purchase_price_currency")
                 ),
-                journeyMapper.map(resultSet),
-                resultSet.getDate("selling_date"),
-                resultSet.getTimestamp("journey_start_date").toLocalDateTime(),
-                resultSet.getTimestamp("journey_end_date").toLocalDateTime(),
-                (TransportType) resultSet.getObject("transport_type"),
-                (TicketStatus) resultSet.getObject("ticket_status"),
-                resultSet.getDate("created_at"),
-                resultSet.getDate("updated_at"),
-                resultSet.getDate("deleted_at")
+                journeyMapper.map(rs),
+                rs.getDate("selling_date"),
+                rs.getTimestamp("journey_start_date").toLocalDateTime(),
+                rs.getTimestamp("journey_end_date").toLocalDateTime(),
+                (TransportType) rs.getObject("transport_type"),
+                (TicketStatus) rs.getObject("ticket_status"),
+                rs.getTimestamp("created_at").toLocalDateTime(),
+                rs.getTimestamp("updated_at").toLocalDateTime(),
+                rs.getTimestamp("deleted_at").toLocalDateTime()
         );
     }
 

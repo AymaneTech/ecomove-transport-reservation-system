@@ -27,9 +27,9 @@ public class PartnerResultSetMapper implements BaseEntityResultSetMapper<Partner
                 resultSet.getString("special_condition"),
                 TransportType.valueOf(resultSet.getString("transport_type")),
                 PartnerStatus.valueOf(resultSet.getString("partner_status")),
-                resultSet.getDate("created_at"),
-                resultSet.getDate("updated_at"),
-                resultSet.getDate("deleted_at")
+                resultSet.getTimestamp("created_at").toLocalDateTime(),
+                resultSet.getTimestamp("updated_at").toLocalDateTime(),
+                resultSet.getTimestamp("deleted_at").toLocalDateTime()
         );
     }
 

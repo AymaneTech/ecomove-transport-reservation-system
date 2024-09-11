@@ -4,6 +4,7 @@ import com.wora.partner.domain.enums.PartnerStatus;
 import com.wora.partner.domain.enums.TransportType;
 import com.wora.partner.domain.valueObjects.PartnerId;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public record PartnerResponse(
         String specialCondition,
         TransportType transportType,
         PartnerStatus status,
-        Date createdAt,
-        Date lastUpdatedAt
+        LocalDateTime createdAt,
+        LocalDateTime lastUpdatedAt
 ) {
 }

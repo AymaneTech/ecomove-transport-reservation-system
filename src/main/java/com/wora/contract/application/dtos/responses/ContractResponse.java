@@ -4,6 +4,7 @@ import com.wora.contract.domain.enums.ContractStatus;
 import com.wora.contract.domain.valueObjects.ContractId;
 import com.wora.partner.application.dtos.responses.PartnerResponse;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public record ContractResponse(ContractId id,
                                Date endsAt,
                                ContractStatus status,
                                PartnerResponse partner,
-                               Date createdAt,
-                               Date updatedAt
+                               LocalDateTime createdAt,
+                               LocalDateTime updatedAt
 ) {
 }
