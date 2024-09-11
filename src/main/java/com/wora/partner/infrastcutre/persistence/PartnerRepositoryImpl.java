@@ -12,18 +12,14 @@ import static com.wora.common.utils.QueryExecutor.executeUpdatePreparedStatement
 
 public class PartnerRepositoryImpl extends BaseRepositoryImpl<Partner, UUID> implements PartnerRepository {
 
-    private final PartnerResultSetMapper mapper;
-    private final String tableName = "partners";
-
     public PartnerRepositoryImpl(PartnerResultSetMapper mapper) {
         super("partners", mapper);
-        this.mapper = mapper;
     }
 
     @Override
     public void create(Partner partner) {
         final String query = String.format("""
-                INSERT INTO %s 
+                INSERT INTO %s
                 (name, commercial_name, commercial_phonenumber, commercial_email, geographical_area, special_condition, transport_type, partner_status, id) 
                 VALUES (?, ?, ?, ?, ?, ?, CAST(? AS transport_type), CAST(? AS partner_status), ?)
                 """, tableName);

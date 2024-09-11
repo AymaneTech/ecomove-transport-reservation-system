@@ -14,12 +14,9 @@ import static com.wora.common.utils.QueryExecutor.executeQueryStatement;
 import static com.wora.common.utils.QueryExecutor.executeUpdatePreparedStatement;
 
 public class TicketRepositoryImpl extends BaseRepositoryImpl<Ticket, UUID> implements TicketRepository {
-    private final TicketResultSetMapper mapper;
-    private final String tableName = "tickets";
 
     public TicketRepositoryImpl(TicketResultSetMapper mapper) {
         super("tickets", mapper);
-        this.mapper = mapper;
     }
 
     @Override

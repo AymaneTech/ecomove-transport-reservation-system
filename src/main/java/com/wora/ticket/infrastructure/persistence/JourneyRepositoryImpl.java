@@ -16,11 +16,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import static com.wora.common.utils.QueryExecutor.*;
 
 public class JourneyRepositoryImpl extends BaseRepositoryImpl<Journey, UUID> implements JourneyRepository {
-    private final JourneyResultSetMapper mapper;
 
     public JourneyRepositoryImpl(JourneyResultSetMapper mapper) {
         super("journeys", mapper);
-        this.mapper = mapper;
     }
 
     @Override
