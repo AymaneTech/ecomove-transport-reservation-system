@@ -2,45 +2,33 @@ package com.wora.client.infrastructure.persistence;
 
 import com.wora.client.domain.entities.Client;
 import com.wora.client.domain.repositories.ClientRepository;
+import com.wora.client.infrastructure.mappers.ClientResultSetMapper;
+import com.wora.common.infrastructure.persistence.BaseRepositoryImpl;
 import com.wora.contract.domain.exceptions.ContractNotFoundException;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-public class ClientRepositoryImpl implements ClientRepository {
-    @Override
-    public List<Client> findAll() {
-        return List.of();
-    }
+import static com.wora.common.utils.QueryExecutor.executeQueryPreparedStatement;
+import static com.wora.common.utils.QueryExecutor.executeUpdatePreparedStatement;
 
-    @Override
-    public Optional<Client> findById(UUID uuid) {
-        return Optional.empty();
+public class ClientRepositoryImpl extends BaseRepositoryImpl<Client, UUID> implements ClientRepository {
+    public ClientRepositoryImpl(ClientResultSetMapper mapper) {
+        super("clients", mapper);
     }
 
     @Override
     public void create(Client client) {
-
+        final String query = "INSERT INTO clients (first_name, last_name, email, phone, id) VALUES(?,?,?,?,?)";
+        executeUpdatePreparedStatement(query, stmt -> mapper.map(client, stmt));
     }
 
     @Override
     public void update(UUID uuid, Client client) throws ContractNotFoundException {
-
-    }
-
-    @Override
-    public void delete(UUID uuid) {
-
-    }
-
-    @Override
-    public Boolean existsById(UUID uuid) {
-        return null;
-    }
-
-    @Override
-    public Optional<Client> findByColumn(String columnName, String value) {
-        return Optional.empty();
+        final String query = """
+                UPDATE clients
+                SET first_name =?, last_name =?, email =?, phone =?, updated_at = now()
+                WHERE id = ?
+                """;
+        executeQueryPreparedStatement(query, stmt -> mapper.map(client, stmt));
     }
 }
