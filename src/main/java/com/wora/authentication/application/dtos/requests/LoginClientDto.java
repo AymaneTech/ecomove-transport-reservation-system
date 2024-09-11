@@ -1,4 +1,4 @@
 package com.wora.authentication.application.dtos.requests;
 
-public class LoginClientDto {
+public record LoginClientDto(String email) {
 }
