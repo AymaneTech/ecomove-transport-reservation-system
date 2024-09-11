@@ -6,6 +6,7 @@ import com.wora.partner.domain.enums.TransportType;
 import com.wora.partner.domain.valueObjects.CommercialInfo;
 import com.wora.partner.domain.valueObjects.PartnerId;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -33,7 +34,7 @@ public class Partner extends AbstractEntity<PartnerId> {
 
     public Partner(PartnerId id, String name, CommercialInfo commercialInfo,
                    String geographicArea, String specialCondition, TransportType type, PartnerStatus status,
-                   Date createdAt, Date updatedAt, Date deletedAt) {
+                   LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
         this.id = id;
         this.name = name;
         this.commercialInfo = commercialInfo;

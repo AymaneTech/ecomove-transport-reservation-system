@@ -13,8 +13,8 @@ import static com.wora.common.utils.QueryExecutor.executeQueryStatement;
 
 public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<Entity, ID> {
 
-    private final String tableName;
-    private final BaseEntityResultSetMapper<Entity> mapper;
+    protected final String tableName;
+    protected final BaseEntityResultSetMapper<Entity> mapper;
 
     public BaseRepositoryImpl(String tableName, BaseEntityResultSetMapper mapper) {
         this.tableName = tableName;
@@ -37,7 +37,7 @@ public abstract class BaseRepositoryImpl<Entity, ID> implements BaseRepository<E
     @Override
     public Optional<Entity> findById(final ID id) {
         final AtomicReference<Optional<Entity>> entity = new AtomicReference<>(Optional.empty());
-        final String query = "SELECT * FROM " + tableName + " WHERE id = CAST (? AS uuid) AND deleted_at is null";
+        final String query = "SELECT * FROM " + tableName + " WHERE id = ?::uuid AND deleted_at is null";
 
         executeQueryPreparedStatement(query, stmt -> {
             stmt.setObject(1, id.toString());

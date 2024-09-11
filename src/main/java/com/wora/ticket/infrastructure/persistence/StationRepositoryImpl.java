@@ -12,11 +12,9 @@ import java.util.UUID;
 import static com.wora.common.utils.QueryExecutor.executeUpdatePreparedStatement;
 
 public class StationRepositoryImpl extends BaseRepositoryImpl<Station, UUID> implements StationRepository {
-    private final StationResultSetMapper mapper;
 
     public StationRepositoryImpl(StationResultSetMapper mapper) {
         super("stations", mapper);
-        this.mapper = mapper;
     }
 
     @Override

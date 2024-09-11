@@ -12,12 +12,8 @@ import static com.wora.common.utils.QueryExecutor.executeUpdatePreparedStatement
 
 public class ContractRepositoryImpl extends BaseRepositoryImpl<Contract, UUID> implements ContractRepository {
 
-    private final ContractResultSetMapper mapper;
-    private final String tableName = "contracts";
-
     public ContractRepositoryImpl(ContractResultSetMapper mapper) {
         super("contracts", mapper);
-        this.mapper = mapper;
     }
 
     @Override

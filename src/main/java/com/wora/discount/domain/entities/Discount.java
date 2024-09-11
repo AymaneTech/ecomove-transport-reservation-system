@@ -6,6 +6,7 @@ import com.wora.discount.domain.enums.DiscountStatus;
 import com.wora.discount.domain.valueObjects.DiscountId;
 import com.wora.discount.domain.valueObjects.Reduction;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Discount extends AbstractEntity<DiscountId> {
@@ -31,7 +32,7 @@ public class Discount extends AbstractEntity<DiscountId> {
         this.status = status;
     }
 
-    public Discount(DiscountId id, ContractId contractId, String name, String description, String conditions, Reduction reduction, Date startedAt, Date endsAt, DiscountStatus status, Date createdAt, Date updatedAt, Date deletedAt) {
+    public Discount(DiscountId id, ContractId contractId, String name, String description, String conditions, Reduction reduction, Date startedAt, Date endsAt, DiscountStatus status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
         this.id = id;
         this.contractId = contractId;
         this.name = name;

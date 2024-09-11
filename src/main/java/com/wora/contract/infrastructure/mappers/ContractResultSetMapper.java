@@ -25,9 +25,9 @@ public class ContractResultSetMapper implements BaseEntityResultSetMapper<Contra
                 resultSet.getDate("ends_at"),
                 ContractStatus.valueOf(resultSet.getString("status")),
                 new PartnerId((UUID) resultSet.getObject("partner_id")),
-                getDate("created_at", resultSet),
-                getDate("updated_at", resultSet),
-                getDate("deleted_at", resultSet)
+                resultSet.getTimestamp("created_at").toLocalDateTime(),
+                resultSet.getTimestamp("updated_at").toLocalDateTime(),
+                resultSet.getTimestamp("deleted_at").toLocalDateTime()
         );
     }
 

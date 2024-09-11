@@ -13,12 +13,8 @@ import static com.wora.common.utils.QueryExecutor.executeUpdatePreparedStatement
 
 public class DiscountRepositoryImpl extends BaseRepositoryImpl<Discount, UUID> implements DiscountRepository {
 
-    private final DiscountResultSetMapper mapper;
-    private final String tableName = "discounts";
-
     public DiscountRepositoryImpl(DiscountResultSetMapper mapper) {
         super("discounts", mapper);
-        this.mapper = mapper;
     }
 
     @Override

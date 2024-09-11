@@ -6,6 +6,7 @@ import com.wora.discount.domain.enums.DiscountStatus;
 import com.wora.discount.domain.valueObjects.DiscountId;
 import com.wora.discount.domain.valueObjects.Reduction;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public record DiscountResponse(
@@ -18,7 +19,7 @@ public record DiscountResponse(
         Date endsAt,
         DiscountStatus status,
         ContractResponse contract,
-        Date createdAt,
-        Date updatedAt
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) {
 }

@@ -20,7 +20,7 @@ public record TicketResponse(
         TicketStatus status,
         ContractResponse contract,
         JourneyResponse journey,
-        Date createdAt,
-        Date updatedAt
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) {
 }
