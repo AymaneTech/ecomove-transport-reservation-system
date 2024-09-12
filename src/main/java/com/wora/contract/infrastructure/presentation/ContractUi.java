@@ -9,7 +9,7 @@ import com.wora.contract.application.services.ContractService;
 import com.wora.contract.domain.enums.ContractStatus;
 import com.wora.contract.domain.exceptions.ContractNotFoundException;
 import com.wora.contract.domain.valueObjects.ContractId;
-import com.wora.menu.infrastructure.presentation.MainMenu;
+import com.wora.menu.infrastructure.presentation.AdministrationMenu;
 import com.wora.partner.application.services.PartnerService;
 import com.wora.partner.domain.valueObjects.PartnerId;
 
@@ -21,7 +21,7 @@ public class ContractUi {
 
     private final ContractService contractService;
     private final PartnerService partnerService;
-    private MainMenu menu;
+    private AdministrationMenu menu;
 
     public ContractUi(ContractService contractService, PartnerService partnerService) {
         this.contractService = contractService;
@@ -199,7 +199,7 @@ public class ContractUi {
         this.showMenu();
     }
 
-    public void setMenu(MainMenu menu) {
+    public void setMenu(AdministrationMenu menu) {
         this.menu = menu;
     }
 

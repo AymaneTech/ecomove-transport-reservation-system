@@ -8,17 +8,20 @@ import com.wora.ticket.infrastructure.presentation.JourneyUi;
 import com.wora.ticket.infrastructure.presentation.StationUi;
 import com.wora.ticket.infrastructure.presentation.TicketUi;
 
+import java.awt.*;
+
 import static com.wora.common.utils.InputScanner.clearBuffer;
 
-public class MainMenu {
+public class AdministrationMenu {
     private final PartnerUi partnerUi;
     private final ContractUi contractUi;
     private final DiscountUi discountUi;
     private final TicketUi ticketUi;
     private final StationUi stationUi;
     private final JourneyUi journeyUi;
+    private ChooseRoleMenu roleMenu;
 
-    public MainMenu(PartnerUi partnerUi, ContractUi contractUi, DiscountUi discountUi, TicketUi ticketUi, StationUi stationUi, JourneyUi journeyUi) {
+    public AdministrationMenu(PartnerUi partnerUi, ContractUi contractUi, DiscountUi discountUi, TicketUi ticketUi, StationUi stationUi, JourneyUi journeyUi) {
         this.partnerUi = partnerUi;
         this.contractUi = contractUi;
         this.discountUi = discountUi;
@@ -36,7 +39,7 @@ public class MainMenu {
                 System.out.println("\t 4- Manage Tickets.");
                 System.out.println("\t 5- Manage Stations.");
                 System.out.println("\t 6- Manage Journeys.");
-                System.out.println("\t 0- Exit.");
+                System.out.println("\t 0- Log out.");
 
                 final Integer choice = InputScanner.scanInt("Please enter your choice:  ");
 
@@ -47,7 +50,7 @@ public class MainMenu {
                     case 4 -> ticketUi.showMenu();
                     case 5 -> stationUi.showMenu();
                     case 6 -> journeyUi.showMenu();
-                    case 0 -> System.exit(0);
+                    case 0 -> roleMenu.showMenu();
                     default -> {
                         System.out.println("invalid choice");
                         showMenu();
@@ -61,5 +64,9 @@ public class MainMenu {
             showMenu();
         }
 
+    }
+
+    public void setMenu(ChooseRoleMenu mainMenu) {
+        this.roleMenu = mainMenu;
     }
 }

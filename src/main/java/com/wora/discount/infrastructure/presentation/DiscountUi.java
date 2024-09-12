@@ -13,7 +13,7 @@ import com.wora.discount.domain.enums.ReductionType;
 import com.wora.discount.domain.exceptions.DiscountNotFoundException;
 import com.wora.discount.domain.valueObjects.DiscountId;
 import com.wora.discount.domain.valueObjects.Reduction;
-import com.wora.menu.infrastructure.presentation.MainMenu;
+import com.wora.menu.infrastructure.presentation.AdministrationMenu;
 
 import java.util.*;
 
@@ -23,7 +23,7 @@ public class DiscountUi {
 
     private final DiscountService discountService;
     private final ContractService contractService;
-    private MainMenu menu;
+    private AdministrationMenu menu;
 
     public DiscountUi(DiscountService discountService, ContractService contractService) {
         this.discountService = discountService;
@@ -206,7 +206,7 @@ public class DiscountUi {
         this.showMenu();
     }
 
-    public void setMenu(MainMenu menu) {
+    public void setMenu(AdministrationMenu menu) {
         this.menu = menu;
     }
 

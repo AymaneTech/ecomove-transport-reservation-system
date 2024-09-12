@@ -13,11 +13,11 @@ import com.wora.client.domain.valueObjects.Name;
 
 import java.util.Optional;
 
-public class authenticationServiceImpl implements AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final ClientService service;
     private final ClientMapper mapper;
 
-    public authenticationServiceImpl(ClientService service, ClientMapper mapper) {
+    public AuthenticationServiceImpl(ClientService service, ClientMapper mapper) {
         this.service = service;
         this.mapper = mapper;
     }
@@ -43,6 +43,5 @@ public class authenticationServiceImpl implements AuthenticationService {
         return client
                 .map(mapper::map)
                 .orElseThrow(() -> new ClientNotFoundException(email));
-
     }
 }

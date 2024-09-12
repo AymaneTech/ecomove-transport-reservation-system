@@ -2,12 +2,11 @@ package com.wora.ticket.infrastructure.presentation;
 
 import com.github.freva.asciitable.AsciiTable;
 import com.github.freva.asciitable.Column;
-import com.wora.menu.infrastructure.presentation.MainMenu;
+import com.wora.menu.infrastructure.presentation.AdministrationMenu;
 import com.wora.ticket.application.dtos.requests.CreateJourneyDto;
 import com.wora.ticket.application.dtos.responses.JourneyResponse;
 import com.wora.ticket.application.services.JourneyService;
 import com.wora.ticket.domain.valueObjects.JourneyId;
-import com.wora.ticket.domain.valueObjects.StationId;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,7 +18,7 @@ import static com.wora.common.utils.InputScanner.*;
 public class JourneyUi {
 
     private final JourneyService journeyService;
-    private MainMenu menu;
+    private AdministrationMenu menu;
 
     public JourneyUi(JourneyService journeyService) {
         this.journeyService = journeyService;
@@ -72,7 +71,7 @@ public class JourneyUi {
         this.showMenu();
     }
 
-    public void setMenu(MainMenu menu) {
+    public void setMenu(AdministrationMenu menu) {
         this.menu = menu;
     }
 

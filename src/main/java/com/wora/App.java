@@ -1,6 +1,15 @@
 package com.wora;
 
 
+import com.wora.authentication.application.services.AuthenticationService;
+import com.wora.authentication.application.services.impl.AuthenticationServiceImpl;
+import com.wora.authentication.infrastructure.presentation.AuthenticationUi;
+import com.wora.client.application.mappers.ClientMapper;
+import com.wora.client.application.services.ClientService;
+import com.wora.client.application.services.impl.ClientServiceImpl;
+import com.wora.client.domain.repositories.ClientRepository;
+import com.wora.client.infrastructure.mappers.ClientResultSetMapper;
+import com.wora.client.infrastructure.persistence.ClientRepositoryImpl;
 import com.wora.contract.application.mappers.ContractMapper;
 import com.wora.contract.application.services.ContractService;
 import com.wora.contract.application.services.impl.ContractServiceImpl;
@@ -15,7 +24,8 @@ import com.wora.discount.domain.repositories.DiscountRepository;
 import com.wora.discount.infrastructure.mappers.DiscountResultSetMapper;
 import com.wora.discount.infrastructure.persistence.DiscountRepositoryImpl;
 import com.wora.discount.infrastructure.presentation.DiscountUi;
-import com.wora.menu.infrastructure.presentation.MainMenu;
+import com.wora.menu.infrastructure.presentation.AdministrationMenu;
+import com.wora.menu.infrastructure.presentation.ChooseRoleMenu;
 import com.wora.partner.application.mappers.PartnerMapper;
 import com.wora.partner.application.services.PartnerService;
 import com.wora.partner.application.services.impl.PartnerServiceImpl;
@@ -48,11 +58,17 @@ import com.wora.ticket.infrastructure.presentation.TicketUi;
 
 public class App {
     public static void main(String[] args) {
-        final MainMenu menu = getMainMenu();
+        final ChooseRoleMenu menu = getMainMenu();
         menu.showMenu();
     }
 
-    private static MainMenu getMainMenu() {
+    private static ChooseRoleMenu getMainMenu() {
+        final ClientRepository clientRepository = new ClientRepositoryImpl(new ClientResultSetMapper());
+        final ClientMapper clientMapper = new ClientMapper();
+        final ClientService clientService = new ClientServiceImpl(clientRepository, clientMapper);
+        final AuthenticationService authenticationService = new AuthenticationServiceImpl(clientService, clientMapper);
+        final AuthenticationUi authenticationUi = new AuthenticationUi(authenticationService);
+
         final PartnerRepository partnerRepository = new PartnerRepositoryImpl(new PartnerResultSetMapper());
         final PartnerService partnerService = new PartnerServiceImpl(partnerRepository, new PartnerMapper());
         final PartnerUi partnerUi = new PartnerUi(partnerService);
@@ -81,14 +97,17 @@ public class App {
         final TicketUi ticketUi = new TicketUi(ticketService, contractService);
 
 
-        final MainMenu menu = new MainMenu(partnerUi, contractUi, discountUi, ticketUi, stationUi, journeyUi);
-        partnerUi.setMenu(menu);
-        contractUi.setMenu(menu);
-        discountUi.setMenu(menu);
-        ticketUi.setMenu(menu);
-        stationUi.setMenu(menu);
-        journeyUi.setMenu(menu);
-        return menu;
+        final AdministrationMenu administrationMenu= new AdministrationMenu(partnerUi, contractUi, discountUi, ticketUi, stationUi, journeyUi);
+        partnerUi.setMenu(administrationMenu);
+        contractUi.setMenu(administrationMenu);
+        discountUi.setMenu(administrationMenu);
+        ticketUi.setMenu(administrationMenu);
+        stationUi.setMenu(administrationMenu);
+        journeyUi.setMenu(administrationMenu);
+
+        final ChooseRoleMenu mainMenu = new ChooseRoleMenu(administrationMenu, authenticationUi);
+        administrationMenu.setMenu(mainMenu);
+        return mainMenu;
     }
 }
 

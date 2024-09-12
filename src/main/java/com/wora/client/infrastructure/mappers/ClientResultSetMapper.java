@@ -24,7 +24,7 @@ public class ClientResultSetMapper implements BaseEntityResultSetMapper<Client> 
                 rs.getString("email"),
                 rs.getString("phone"),
                 rs.getTimestamp("created_at").toLocalDateTime(),
-                rs.getTimestamp("updated_at").toLocalDateTime(),
+                getDate("updated_at", rs),
                 getDate("deleted_at", rs)
         );
     }

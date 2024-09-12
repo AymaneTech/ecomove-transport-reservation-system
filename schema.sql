@@ -94,3 +94,16 @@ CREATE TABLE IF NOT EXISTS journeys(
     FOREIGN KEY (start_id) REFERENCES stations(id),
     FOREIGN KEY (end_id) REFERENCES stations(id)
 );
+
+CREATE TABLE IF NOT EXISTS clients(
+    id UUID,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(50),
+    phone VARCHAR(50),
+    created_at TIMESTAMP DEFAULT now(),
+    updated_at TIMESTAMP ,
+    deleted_at TIMESTAMP ,
+
+    PRIMARY KEY(id)
+);

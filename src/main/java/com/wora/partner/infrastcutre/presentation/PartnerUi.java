@@ -2,7 +2,7 @@ package com.wora.partner.infrastcutre.presentation;
 
 import com.github.freva.asciitable.AsciiTable;
 import com.github.freva.asciitable.Column;
-import com.wora.menu.infrastructure.presentation.MainMenu;
+import com.wora.menu.infrastructure.presentation.AdministrationMenu;
 import com.wora.partner.application.dtos.requests.CreatePartnerDto;
 import com.wora.partner.application.dtos.requests.UpdatePartnerDto;
 import com.wora.partner.application.dtos.responses.PartnerResponse;
@@ -23,7 +23,7 @@ import static com.wora.common.utils.InputScanner.*;
 public class PartnerUi {
 
     private final PartnerService partnerService;
-    private MainMenu menu;
+    private AdministrationMenu menu;
 
     public PartnerUi(PartnerService partnerService) {
         this.partnerService = partnerService;
@@ -73,6 +73,7 @@ public class PartnerUi {
     }
 
     public void create() {
+        clearBuffer();
         System.out.println("\t Please to enter the required data to create new partner!");
         final List<TransportType> transportTypes = Arrays.asList(TransportType.values());
         final List<PartnerStatus> partnerStatuses = Arrays.asList(PartnerStatus.values());
@@ -211,7 +212,7 @@ public class PartnerUi {
         this.showMenu();
     }
 
-    public void setMenu(MainMenu menu) {
+    public void setMenu(AdministrationMenu menu) {
         this.menu = menu;
     }
 
