@@ -19,7 +19,7 @@ public class Env {
                 final String currentDir = System.getProperty("user.dir");
                 final String filePath = currentDir + File.separator + ".env";
 
-                try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
                         if (line.trim().startsWith("#")) {

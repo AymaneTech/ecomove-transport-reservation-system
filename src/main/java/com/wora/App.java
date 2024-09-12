@@ -104,7 +104,7 @@ public class App {
         ticketUi.setMenu(administrationMenu);
         stationUi.setMenu(administrationMenu);
         journeyUi.setMenu(administrationMenu);
-
+        
         final ChooseRoleMenu mainMenu = new ChooseRoleMenu(administrationMenu, authenticationUi);
         administrationMenu.setMenu(mainMenu);
         return mainMenu;
