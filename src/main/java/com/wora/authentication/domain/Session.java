@@ -1,9 +1,7 @@
 package com.wora.authentication.domain;
 
-import com.wora.authentication.application.services.impl.SessionManagerImpl;
 import com.wora.authentication.domain.valueObjects.SessionId;
 import com.wora.client.domain.entities.Client;
-import com.wora.client.domain.valueObjects.ClientId;
 
 import java.time.LocalDateTime;
 
@@ -18,11 +16,11 @@ public class Session {
         this.isLoggedIn = false;
     }
 
-    private Client getClient() {
+    public Client getClient() {
         return client;
     }
 
-    private Session setClient(Client client) {
+    public Session setClient(Client client) {
         this.client = client;
         return this;
     }

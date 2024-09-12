@@ -102,6 +102,5 @@ public class JourneyRepositoryImpl extends BaseRepositoryImpl<Journey, UUID> imp
             }
         });
         return journey.get();
-
     }
 }
