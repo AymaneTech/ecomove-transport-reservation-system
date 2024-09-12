@@ -5,6 +5,7 @@ import com.wora.client.domain.valueObjects.Name;
 import com.wora.common.domain.AbstractEntity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Client extends AbstractEntity<ClientId> {
     private ClientId id;
@@ -61,5 +62,18 @@ public class Client extends AbstractEntity<ClientId> {
     public Client setPhone(String phone) {
         this.phone = phone;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(id, client.id) && Objects.equals(name, client.name) && Objects.equals(email, client.email) && Objects.equals(phone, client.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, phone);
     }
 }

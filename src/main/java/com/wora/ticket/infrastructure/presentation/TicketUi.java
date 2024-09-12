@@ -4,7 +4,7 @@ import com.github.freva.asciitable.AsciiTable;
 import com.github.freva.asciitable.Column;
 import com.wora.contract.application.services.ContractService;
 import com.wora.contract.domain.valueObjects.ContractId;
-import com.wora.menu.infrastructure.presentation.MainMenu;
+import com.wora.menu.infrastructure.presentation.AdministrationMenu;
 import com.wora.partner.domain.enums.TransportType;
 import com.wora.ticket.application.dtos.requests.CreateTicketDto;
 import com.wora.ticket.application.dtos.requests.JourneyDto;
@@ -25,7 +25,7 @@ public class TicketUi {
 
     private final TicketService ticketService;
     private final ContractService contractService;
-    private MainMenu menu;
+    private AdministrationMenu menu;
 
     public TicketUi(TicketService ticketService, ContractService contractService) {
         this.ticketService = ticketService;
@@ -212,7 +212,7 @@ public class TicketUi {
         this.showMenu();
     }
 
-    public void setMenu(MainMenu menu) {
+    public void setMenu(AdministrationMenu menu) {
         this.menu = menu;
     }
 

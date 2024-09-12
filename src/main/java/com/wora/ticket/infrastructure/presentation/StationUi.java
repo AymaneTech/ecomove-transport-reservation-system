@@ -2,7 +2,7 @@ package com.wora.ticket.infrastructure.presentation;
 
 import com.github.freva.asciitable.AsciiTable;
 import com.github.freva.asciitable.Column;
-import com.wora.menu.infrastructure.presentation.MainMenu;
+import com.wora.menu.infrastructure.presentation.AdministrationMenu;
 import com.wora.ticket.application.dtos.requests.CreateStationDto;
 import com.wora.ticket.application.dtos.requests.UpdateStationDto;
 import com.wora.ticket.application.dtos.responses.StationResponse;
@@ -16,7 +16,7 @@ import static com.wora.common.utils.InputScanner.*;
 public class StationUi {
 
     private final StationService stationService;
-    private MainMenu menu;
+    private AdministrationMenu menu;
 
     public StationUi(StationService stationService) {
         this.stationService = stationService;
@@ -112,7 +112,7 @@ public class StationUi {
         this.showMenu();
     }
 
-    public void setMenu(MainMenu menu) {
+    public void setMenu(AdministrationMenu menu) {
         this.menu = menu;
     }
 
