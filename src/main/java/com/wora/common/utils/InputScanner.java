@@ -2,8 +2,10 @@ package com.wora.common.utils;
 
 import com.wora.ticket.domain.valueObjects.Price;
 
+import javax.swing.text.DateFormatter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Currency;
@@ -92,5 +94,16 @@ public class InputScanner {
         String input = scanString(prompt + "1986-04-08 12:30");
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return LocalDateTime.parse(input, formatter);
+    }
+
+    public static LocalDate scanLocalDate(String prompt) {
+        String input = scanString(prompt + "1986-04-08");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(input, formatter);
+    }
+
+    public static void clearScreen() {
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
     }
 }

@@ -1,4 +1,4 @@
-package com.wora.ticket.infrastructure.presentation;
+package com.wora.ticket.infrastructure.presentation.administration;
 
 import com.github.freva.asciitable.AsciiTable;
 import com.github.freva.asciitable.Column;
