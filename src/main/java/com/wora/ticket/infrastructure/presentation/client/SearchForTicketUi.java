@@ -1,6 +1,6 @@
 package com.wora.ticket.infrastructure.presentation.client;
 
-import com.wora.ticket.application.services.SearchForTicketService;
+import com.wora.ticket.application.services.RoutFindingService;
 
 import java.time.LocalDate;
 
@@ -8,10 +8,10 @@ import static com.wora.common.utils.InputScanner.scanLocalDate;
 import static com.wora.common.utils.InputScanner.scanString;
 
 public class SearchForTicketUi {
-    private final SearchForTicketService searchForTicketService;
+    private final RoutFindingService routFindingService;
 
-    public SearchForTicketUi(SearchForTicketService searchForTicketService) {
-        this.searchForTicketService = searchForTicketService;
+    public SearchForTicketUi(RoutFindingService routFindingService) {
+        this.routFindingService = routFindingService;
     }
 
     public void search() {

@@ -1,7 +1,5 @@
 package com.wora.ticket.domain.exceptions;
 
-import com.wora.ticket.infrastructure.presentation.TicketUi;
-
 import java.util.UUID;
 
 public class TicketNotFoundException extends RuntimeException {

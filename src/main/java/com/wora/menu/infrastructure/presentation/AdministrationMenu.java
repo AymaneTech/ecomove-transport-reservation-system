@@ -4,11 +4,9 @@ import com.wora.common.utils.InputScanner;
 import com.wora.contract.infrastructure.presentation.ContractUi;
 import com.wora.discount.infrastructure.presentation.DiscountUi;
 import com.wora.partner.infrastcutre.presentation.PartnerUi;
-import com.wora.ticket.infrastructure.presentation.JourneyUi;
-import com.wora.ticket.infrastructure.presentation.StationUi;
-import com.wora.ticket.infrastructure.presentation.TicketUi;
-
-import java.awt.*;
+import com.wora.ticket.infrastructure.presentation.administration.JourneyUi;
+import com.wora.ticket.infrastructure.presentation.administration.StationUi;
+import com.wora.ticket.infrastructure.presentation.administration.TicketUi;
 
 import static com.wora.common.utils.InputScanner.clearBuffer;
 

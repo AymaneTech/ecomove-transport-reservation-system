@@ -31,7 +31,7 @@ public class TransportNetwork implements Graph<Station, Journey> {
     }
 
     @Override
-    public void addEdge(Vertex<Station> source, Vertex<Station> destination, Journey data) {
+    public void addEdge(Journey data) {
         JourneyEdge edge = new JourneyEdge(data);
         edges.add(edge);
     }

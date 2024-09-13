@@ -5,7 +5,7 @@ import com.wora.ticket.domain.entities.Ticket;
 
 import java.util.List;
 
-public interface SearchForTicketService {
+public interface RoutFindingService {
 
     List<Ticket> search(SearchForTicketDto dto);
 }

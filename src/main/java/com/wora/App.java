@@ -40,6 +40,7 @@ import com.wora.ticket.application.services.JourneyService;
 import com.wora.ticket.application.services.StationService;
 import com.wora.ticket.application.services.TicketService;
 import com.wora.ticket.application.services.impl.JourneyServiceImpl;
+import com.wora.ticket.application.services.impl.RouteFindingServiceImpl;
 import com.wora.ticket.application.services.impl.StationServiceImpl;
 import com.wora.ticket.application.services.impl.TicketServiceImpl;
 import com.wora.ticket.domain.repositories.JourneyRepository;
@@ -51,16 +52,19 @@ import com.wora.ticket.infrastructure.mappers.TicketResultSetMapper;
 import com.wora.ticket.infrastructure.persistence.JourneyRepositoryImpl;
 import com.wora.ticket.infrastructure.persistence.StationRepositoryImpl;
 import com.wora.ticket.infrastructure.persistence.TicketRepositoryImpl;
-import com.wora.ticket.infrastructure.presentation.JourneyUi;
-import com.wora.ticket.infrastructure.presentation.StationUi;
-import com.wora.ticket.infrastructure.presentation.TicketUi;
+import com.wora.ticket.infrastructure.presentation.administration.JourneyUi;
+import com.wora.ticket.infrastructure.presentation.administration.StationUi;
+import com.wora.ticket.infrastructure.presentation.administration.TicketUi;
 
 
 public class App {
     public static void main(String[] args) {
         final ChooseRoleMenu menu = getMainMenu();
         menu.showMenu();
+//        final RouteFindingServiceImpl routeFindingService = (RouteFindingServiceImpl) getMainMenu();
+//        routeFindingService.print();
     }
+
 
     private static ChooseRoleMenu getMainMenu() {
         final ClientRepository clientRepository = new ClientRepositoryImpl(new ClientResultSetMapper());
@@ -96,15 +100,17 @@ public class App {
         final TicketService ticketService = new TicketServiceImpl(ticketRepository, journeyService, contractService, new TicketMapper(journeyMapper));
         final TicketUi ticketUi = new TicketUi(ticketService, contractService);
 
+        RouteFindingServiceImpl routeFindingService = new RouteFindingServiceImpl(stationRepository, journeyRepository, ticketRepository);
 
-        final AdministrationMenu administrationMenu= new AdministrationMenu(partnerUi, contractUi, discountUi, ticketUi, stationUi, journeyUi);
+
+        final AdministrationMenu administrationMenu = new AdministrationMenu(partnerUi, contractUi, discountUi, ticketUi, stationUi, journeyUi);
         partnerUi.setMenu(administrationMenu);
         contractUi.setMenu(administrationMenu);
         discountUi.setMenu(administrationMenu);
         ticketUi.setMenu(administrationMenu);
         stationUi.setMenu(administrationMenu);
         journeyUi.setMenu(administrationMenu);
-        
+
         final ChooseRoleMenu mainMenu = new ChooseRoleMenu(administrationMenu, authenticationUi);
         administrationMenu.setMenu(mainMenu);
         return mainMenu;

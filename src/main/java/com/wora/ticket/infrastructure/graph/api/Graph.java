@@ -7,7 +7,7 @@ public interface Graph<T, E> {
 
     void removeVertex(Vertex<T> vertex);
 
-    void addEdge(Vertex<T> source, Vertex<T> destination, E data);
+    void addEdge(E data);
 
     void removeEdge(Edge<T, E> edge);
 
