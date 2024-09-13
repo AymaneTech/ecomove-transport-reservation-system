@@ -1,4 +1,6 @@
 package com.wora.ticket.application.dtos.requests;
 
-public class SearchForTicketDto {
+import java.time.LocalDate;
+
+public record SearchForTicketDto(String startStation, String endStation, LocalDate date) {
 }
