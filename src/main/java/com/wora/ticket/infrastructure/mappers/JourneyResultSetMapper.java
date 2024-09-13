@@ -2,10 +2,13 @@ package com.wora.ticket.infrastructure.mappers;
 
 import com.wora.common.infrastructure.mappers.BaseEntityResultSetMapper;
 import com.wora.ticket.domain.entities.Journey;
+import com.wora.ticket.domain.entities.Station;
 import com.wora.ticket.domain.valueObjects.JourneyId;
+import com.wora.ticket.domain.valueObjects.StationId;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -17,12 +20,26 @@ public class JourneyResultSetMapper implements BaseEntityResultSetMapper<Journey
     }
 
     @Override
+
     public Journey map(ResultSet resultSet) throws SQLException {
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+//        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+//            System.out.println(i + " -> " + rsmd.getColumnName(i));
+//        }
+
         return new Journey(
-                new JourneyId((UUID) resultSet.getObject("id")),
-                stationMapper.map(resultSet),
-                stationMapper.map(resultSet),
-                resultSet.getDouble("distance")
+                new JourneyId(UUID.fromString(resultSet.getString(1))),
+                new Station(
+                        new StationId(UUID.fromString(resultSet.getString(8))),
+                        resultSet.getString(9),
+                        resultSet.getString(10)
+                ),
+                new Station(
+                        new StationId(UUID.fromString(resultSet.getString(14))),
+                        resultSet.getString(15),
+                        resultSet.getString(16)
+                ),
+                resultSet.getDouble(4)
         );
     }
 
